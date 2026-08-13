@@ -3,165 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>اختبار التوفل العربي — TOAFL Practice</title>
+<title>TOAFL — تعلم Arabic | Ta'allum Akademik</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --teal-800:#0f3d3e; --teal-600:#1c5b5c; --sage:#7fa99b; --gold:#c9a24b;
-  --parchment:#faf6ee; --ink:#2b2420; --ink-soft:#5b5148; --danger:#a4453a;
-}
-*{box-sizing:border-box;}
-body{margin:0;font-family:'Tajawal',sans-serif;background:var(--parchment);color:var(--ink);min-height:100vh;}
-.wrap{max-width:720px;margin:0 auto;padding:20px 16px 60px;}
-h1,h2,h3{font-family:'Amiri',serif;}
-.card{background:#fff;border-radius:18px;padding:22px;margin-top:16px;box-shadow:0 10px 30px rgba(12,43,44,0.08);border:1px solid rgba(12,43,44,.06);}
-label{font-size:13px;color:var(--ink-soft);font-weight:700;display:block;margin-bottom:6px;}
-input[type=text]{width:100%;padding:13px 14px;border-radius:10px;border:1.5px solid #e3d9c2;font-family:'Tajawal',sans-serif;font-size:15px;background:var(--parchment);}
-.btn{border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;font-size:15px;padding:14px 22px;border-radius:12px;width:100%;}
-.btn-primary{background:var(--teal-800);color:#fff;}
-.btn-ghost{background:transparent;color:var(--teal-800);border:1.5px solid var(--teal-800);}
-.progress-row{display:flex;align-items:center;gap:10px;margin:16px 0 10px;}
-.progress-track{flex:1;height:8px;background:#e9e0c9;border-radius:6px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--sage),var(--gold));border-radius:6px;}
-.section-pill{display:inline-block;background:var(--teal-800);color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;margin-bottom:10px;}
-.context-box{background:#0c2b2c;color:var(--parchment);border-radius:14px;padding:18px;margin-bottom:16px;font-family:'Amiri',serif;font-size:18px;line-height:2;}
-.qblock{margin-bottom:20px;padding-bottom:18px;border-bottom:1px dashed #e3d9c2;}
-.qtext{font-size:16px;font-weight:700;margin-bottom:10px;color:var(--teal-800);}
-.opt{display:block;width:100%;text-align:right;background:#fff;border:1.5px solid #e6ddc9;border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;font-family:'Tajawal',sans-serif;}
-.opt.selected{border-color:var(--teal-800);background:#eef5f3;font-weight:700;}
-.nav-row{display:flex;gap:10px;margin-top:18px;}
-.nav-row .btn{flex:1;}
-.score-hero{background:radial-gradient(circle at 30% 20%, var(--teal-600), #0c2b2c);color:#fff;border-radius:20px;padding:30px 24px;text-align:center;}
-.score-big{font-family:'Amiri',serif;font-size:56px;color:#e6cd8f;line-height:1;margin:6px 0;}
-.breakdown{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:18px;}
-.bd-item{background:#fff;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.05);}
-.bd-item b{display:block;font-family:'Amiri',serif;font-size:20px;color:var(--teal-800);}
-.bd-item span{font-size:11px;color:var(--ink-soft);}
+  body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
+  h1, h2, h3 { font-family: 'Amiri', serif; }
+  .opt-btn { display: block; width: 100%; text-align: right; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; cursor: pointer; }
+  .opt-btn.selected { border-color: #047857; background-color: #ecfdf5; font-weight: 700; color: #047857; }
 </style>
 </head>
-<body>
-<div class="wrap" id="app"></div>
+<body class="text-slate-800">
+
+<div id="app" class="max-w-3xl mx-auto p-4 md:p-6"></div>
 
 <script>
-/* ================= BANKE SOAL TOAFL ================= */
-/* Kamu bisa menambahkan item ke dalam array ini hingga total 120 soal */
-
+/* ================= BANK SOAL LENGKAP (100 SOAL) ================= */
 const ISTIMA = [
-  {
-    title: "تعارف بسيط",
-    script: "السلام عليكم. اسمي أحمد. أنا طالب في الجامعة. أسكن في جاكرتا.",
-    audio: null, // Masukkan URL mp3 jika ada: "https://...mp3"
-    q: [
-      {q: "ما اسم المتحدث؟", o: ["أحمد", "محمد", "علي", "سعيد"], a: 0},
-      {q: "أين يسكن أحمد؟", o: ["مكة", "جاكرتا", "الرياض", "القاهرة"], a: 1}
-    ]
-  }
+  {title:"تعارف بسيط", script:"السلام عليكم. اسمي أحمد. أنا طالب في الجامعة. أسكن في جاكرتا. عمري عشرون سنة.", q:[{q:"ما اسم المتحدث؟", o:["أحمد","محمد","علي","سعيد"], a:0},{q:"أين يسكن أحمد؟", o:["مكة","جاكرتا","الرياض","القاهرة"], a:1},{q:"كم عمر أحمد؟", o:["١٨","١٩","٢٠","٢١"], a:2}]},
+  {title:"في المطعم", script:"الرجل: أريد كوب شاي من فضلك. النادل: هل تريد سكرًا؟ الرجل: نعم، ملعقة واحدة فقط.", q:[{q:"ماذا طلب الرجل؟", o:["قهوة","عصير","شاي","ماء"], a:2},{q:"كم ملعقة سكر يريد؟", o:["واحدة","اثنتان","ثلاثة","لا شيء"], a:0},{q:"من يتحدث مع الرجل؟", o:["الطبيب","النادل","المعلم","الطالب"], a:1}]},
+  {title:"الجدول الدراسي", script:"عندي درس النحو الساعة الثامنة صباحًا، ودرس الأدب الساعة العاشرة، وبعد الظهر أذهب إلى المكتبة.", q:[{q:"متى درس النحو؟", o:["الثامنة صباحًا","العاشرة","الظهر","المساء"], a:0},{q:"إلى أين يذهب بعد الظهر؟", o:["المسجد","المكتبة","البيت","السوق"], a:1},{q:"ما الدرس الثاني؟", o:["النحو","الأدب","الفقه","التاريخ"], a:1}]},
+  {title:"الطقس اليوم", script:"الجو اليوم بارد وتمطر. أخذت مظلة معي قبل الخروج من البيت.", q:[{q:"كيف الجو اليوم؟", o:["حار","بارد وممطر","معتدل","عاصف"], a:1},{q:"ماذا أخذ المتحدث؟", o:["معطفًا","مظلة","قبعة","حقيبة"], a:1},{q:"متى أخذ المظلة؟", o:["بعد الخروج","قبل الخروج","في المساء","لم يأخذها"], a:1}]},
+  {title:"حوار في المكتبة", script:"الطالب: هل يمكنني استعارة هذا الكتاب لمدة أسبوعين؟ أمين المكتبة: نعم، ولكن يجب أن تعيده في الموعد المحدد، وإلا ستدفع غرامة.", q:[{q:"ما مدة الاستعارة؟", o:["أسبوع","أسبوعين","شهر","ثلاثة أيام"], a:1},{q:"ماذا يحدث إذا تأخر الطالب في الإعادة؟", o:["يُطرد","يدفع غرامة","يُمنع من الدخول","لا شيء"], a:1},{q:"من يتحدث مع الطالب؟", o:["المعلم","أمين المكتبة","المدير","الحارس"], a:1}]},
+  {title:"التخطيط للسفر", script:"قررت زميلتي أن تسافر إلى المدينة المنورة للدراسة، لكنها تحتاج أولاً إلى شهادة في اللغة العربية لتقديم طلب القبول.", q:[{q:"إلى أين ستسافر الزميلة؟", o:["مكة","المدينة المنورة","الرياض","جدة"], a:1},{q:"ماذا تحتاج قبل السفر؟", o:["تأشيرة فقط","شهادة لغة عربية","تذكرة طيران","جواز سفر جديد"], a:1},{q:"لماذا تسافر؟", o:["للعمل","للسياحة","للدراسة","للعلاج"], a:2}]},
+  {title:"مشكلة في الجامعة", script:"تأخر القطار اليوم، فوصلت إلى الجامعة بعد بداية المحاضرة بنصف ساعة، فاعتذرت من الأستاذ وشرح لي زميلي ما فاتني.", q:[{q:"لماذا تأخر المتحدث؟", o:["نام كثيرًا","تأخر القطار","نسي الكتاب","كان مريضًا"], a:1},{q:"كم تأخر عن المحاضرة؟", o:["ربع ساعة","نصف ساعة","ساعة","ساعتين"], a:1},{q:"من ساعده على فهم الدرس؟", o:["الأستاذ","زميله","أخوه","لا أحد"], a:1}]},
+  {title:"مناقشة أكاديمية", script:"يرى بعض الباحثين أن تعلم اللغة العربية الفصحى يتطلب التركيز على القواعد أولاً، بينما يرى آخرون أن الانغماس في المحادثة أكثر فاعلية، وقد أثبتت دراسات حديثة أن الجمع بين الطريقتين يحقق أفضل النتائج.", q:[{q:"ما رأي الفريق الأول؟", o:["التركيز على المحادثة","التركيز على القواعد أولاً","عدم الحاجة للقواعد","تعلم لغة أخرى"], a:1},{q:"ماذا أثبتت الدراسات الحديثة؟", o:["القواعد وحدها أفضل","المحادثة وحدها أفضل","الجمع بين الطريقتين أفضل","لا فرق بين الطرق"], a:2},{q:"ما موضوع النص؟", o:["تاريخ اللغة العربية","طرق تعلم اللغة العربية","أنواع اللهجات","قواعد النحو"], a:1}]},
+  {title:"تقرير إخباري", script:"أعلنت الجامعة عن افتتاح برنامج جديد لتعليم اللغة العربية لغير الناطقين بها، ويهدف البرنامج إلى تأهيل الطلاب الأجانب للالتحاق بالكليات الشرعية خلال عام واحد فقط.", q:[{q:"ماذا أعلنت الجامعة؟", o:["إغلاق برنامج","افتتاح برنامج جديد","تغيير المناهج","إلغاء المنح"], a:1},{q:"من المستهدف بالبرنامج؟", o:["الطلاب الناطقون بالعربية","الطلاب الأجانب","أساتذة الجامعة","الموظفون"], a:1},{q:"كم تستغرق مدة البرنامج؟", o:["ستة أشهر","عام واحد","عامين","ثلاثة أعوام"], a:1}]},
+  {title:"محاضرة عن الأدب", script:"تناول المحاضر في درسه اليوم خصائص الشعر الجاهلي، وأشار إلى أن الفخر والحكمة والوصف كانت من أبرز أغراضه، كما ضرب أمثلة من معلقة امرئ القيس.", q:[{q:"ما موضوع المحاضرة؟", o:["الشعر الحديث","الشعر الجاهلي","النثر العربي","القصة القصيرة"], a:1},{q:"ما الأغراض التي ذكرها المحاضر؟", o:["الغزل والرثاء","الفخر والحكمة والوصف","الهجاء فقط","المدح فقط"], a:1},{q:"من الشاعر الذي ذكره المحاضر؟", o:["المتنبي","امرؤ القيس","أحمد شوقي","البحتري"], a:1}]}
 ];
 
 const TARAKIB = [
-  {q: "المعلمُ ___ الدرسَ.", o: ["يشرحُ", "تشرحُ", "يشرحون", "شرحتْ"], a: 0},
-  {q: "هذه ___ جميلة.", o: ["بيتٌ", "شجرةٌ", "كتابٌ", "قلمٌ"], a: 1}
+  {q:"المعلمُ ___ الدرسَ.", o:["يشرحُ","تشرحُ","يشرحون","شرحتْ"], a:0},
+  {q:"هذه ___ جميلة.", o:["بيتٌ","شجرةٌ","كتابٌ","قلمٌ"], a:1},
+  {q:"الطالبان ___ مجتهدان.", o:["كان","كانا","كانت","كن"], a:1},
+  {q:"ذهبتُ ___ السوقِ أمس.", o:["إلى","في","على","عن"], a:0},
+  {q:"عندي ثلاثة ___.", o:["كتبٍ","كتابٍ","كتابًا","كتب"], a:0},
+  {q:"الأستاذةُ ___ في الفصلِ.", o:["موجودٌ","موجودةٌ","موجودون","موجودتان"], a:1},
+  {q:"لا ___ الواجبَ الآن.", o:["تكتبْ","تكتبُ","كتبتَ","يكتب"], a:0},
+  {q:"إنّ الطالبَ ___.", o:["مجتهدٌ","مجتهدًا","مجتهدٍ","مجتهدون"], a:0},
+  {q:"رأيتُ ___ في الحديقةِ.", o:["الطالبَ","الطالبُ","الطالبِ","الطلابَ"], a:0},
+  {q:"جاء الطلابُ ___.", o:["كلُّهم","كلَّهم","كلِّهم","كلها"], a:0},
+  {q:"لم ___ الطالبُ الدرسَ.", o:["يفهمْ","يفهمُ","فهمَ","يفهمون"], a:0},
+  {q:"هذا الكتابُ ___ من ذلك.", o:["أفضلَ","أفضلُ","أفضلًا","الأفضل"], a:1},
+  {q:"سافر الطلابُ ___ لدراسةِ اللغةِ.", o:["لِ","على","عن","في"], a:0},
+  {q:"ما ___ اسمُك؟", o:["هو","هي","أنت","ذلك"], a:0},
+  {q:"لولا الاجتهادُ ___ النجاحُ.", o:["لَما حصلَ","يحصلُ","حصلَ","سيحصلُ"], a:0},
+  {q:"جاء الطالبُ الذي ___ في المسابقةِ.", o:["فاز","فازَت","يفوز","فائزون"], a:0},
+  {q:"ما إنْ وصلَ حتى ___ المطرُ.", o:["نزلَ","ينزلُ","نازلٌ","ينزلْ"], a:0},
+  {q:"كلما اجتهدتَ ___ نجاحُك.", o:["ازدادَ","يزدادُ","ازديادًا","تزداد"], a:0},
+  {q:"إنما ___ العلمُ بالتعلمِ.", o:["يُنالُ","تُنالُ","نالَ","ينالُ"], a:0},
+  {q:"بينما كنتُ أقرأُ، ___ الهاتفُ.", o:["رنَّ","يرنُّ","رانَّ","رنَّت"], a:0}
 ];
 
 const QIROAAH = [
-  {
-    title: "عن الطالب أحمد",
-    text: "أحمد طالبٌ في الجامعة. يدرس اللغة العربية منذ سنتين. يذهب إلى الجامعة كل يوم في الصباح.",
-    q: [
-      {q: "ماذا يدرس أحمد؟", o: ["الرياضيات", "اللغة العربية", "التاريخ", "الفيزياء"], a: 1},
-      {q: "متى يذهب إلى الجامعة؟", o: ["الصباح", "الظهر", "المساء", "الليل"], a: 0}
-    ]
-  }
+  {title:"عن الطالب أحمد", text:"أحمد طالبٌ في الجامعة. يدرس اللغة العربية منذ سنتين. يذهب إلى الجامعة كل يوم في الصباح. يحب القراءة والكتابة. له صديقٌ اسمه خالد يدرس معه.", q:[{q:"ماذا يدرس أحمد؟", o:["الرياضيات","اللغة العربية","التاريخ","الفيزياء"], a:1},{q:"منذ متى يدرس؟", o:["سنة","سنتين","ثلاث سنوات","شهر"], a:1},{q:"متى يذهب إلى الجامعة؟", o:["الصباح","الظهر","المساء","الليل"], a:0},{q:"ماذا يحب أحمد؟", o:["الرياضة","القراءة والكتابة","الطبخ","السفر"], a:1},{q:"من صديق أحمد؟", o:["سعيد","خالد","علي","محمد"], a:1}]},
+  {title:"يومي في البيت", text:"أستيقظ في الساعة السادسة صباحًا. أصلي ثم أفطر مع أسرتي. بعد ذلك أذهب إلى العمل. أعود إلى البيت مساءً وأقرأ كتابًا قبل النوم.", q:[{q:"متى يستيقظ الكاتب؟", o:["الخامسة","السادسة","السابعة","الثامنة"], a:1},{q:"مع من يفطر؟", o:["وحده","مع أصدقائه","مع أسرته","مع زملائه"], a:2},{q:"إلى أين يذهب بعد الفطور؟", o:["المدرسة","العمل","السوق","المسجد"], a:1},{q:"متى يعود إلى البيت؟", o:["صباحًا","ظهرًا","مساءً","فجرًا"], a:2},{q:"ماذا يفعل قبل النوم؟", o:["يشاهد التلفاز","يقرأ كتابًا","يتصل بأصدقائه","يكتب رسالة"], a:1}]},
+  {title:"مدينتي", text:"أسكن في مدينة كبيرة فيها أسواق كثيرة وحدائق جميلة. المواصلات فيها سهلة، ويوجد فيها جامعتان ومستشفيات عديدة. أهل المدينة طيبون ومضيافون.", q:[{q:"كيف المدينة؟", o:["صغيرة","كبيرة","قديمة","بعيدة"], a:1},{q:"كم جامعة في المدينة؟", o:["واحدة","جامعتان","ثلاث","لا توجد"], a:1},{q:"كيف المواصلات؟", o:["صعبة","سهلة","غير موجودة","بطيئة"], a:1},{q:"كيف أهل المدينة؟", o:["بخلاء","طيبون ومضيافون","كسالى","غرباء"], a:1},{q:"ماذا يوجد في المدينة غير الأسواق؟", o:["حدائق","جبال","بحار","صحراء"], a:0}]},
+  {title:"الرحلة إلى الحديقة", text:"في يوم الجمعة، ذهبت الأسرة إلى الحديقة العامة. لعب الأطفال بالكرة، وجلس الوالدان تحت الشجرة. أكلوا طعامًا لذيذًا وعادوا إلى البيت مساءً وهم سعداء.", q:[{q:"متى ذهبت الأسرة إلى الحديقة؟", o:["السبت","الجمعة","الأحد","الاثنين"], a:1},{q:"ماذا فعل الأطفال؟", o:["قرأوا","لعبوا بالكرة","ناموا","رسموا"], a:1},{q:"أين جلس الوالدان؟", o:["تحت الشجرة","في السيارة","في المطعم","على الكرسي"], a:0},{q:"متى عادوا إلى البيت؟", o:["صباحًا","ظهرًا","مساءً","لم يعودوا"], a:2},{q:"كيف كان شعورهم عند العودة؟", o:["حزينين","تعبانين","سعداء","غاضبين"], a:2}]},
+  {title:"أهمية تعلم اللغات", text:"تعلم اللغات الأجنبية يفتح آفاقًا واسعة أمام الإنسان، فهو يساعده على التواصل مع ثقافات مختلفة، ويزيد من فرصه في العمل والدراسة. ومع ذلك، يحتاج تعلم اللغة إلى صبر ومثابرة، ولا يمكن إتقانها في وقت قصير.", q:[{q:"ما فائدة تعلم اللغات حسب النص؟", o:["لا فائدة","فتح آفاق واسعة","إضاعة الوقت","صعوبة الحياة"], a:1},{q:"ماذا يحتاج تعلم اللغة؟", o:["المال فقط","صبرًا ومثابرة","لا شيء","الذكاء فقط"], a:1},{q:"هل يمكن إتقان اللغة بسرعة حسب الكاتب؟", o:["نعم دائمًا","لا","أحيانًا","لم يذكر"], a:1},{q:"ماذا يزيد تعلم اللغات؟", o:["فرص العمل والدراسة","المشاكل","التعب فقط","العزلة"], a:0},{q:"مع من يساعد التواصل؟", o:["مع الأقارب فقط","مع ثقافات مختلفة","مع الجيران فقط","لا أحد"], a:1}]},
+  {title:"التكنولوجيا والتعليم", text:"غيّرت التكنولوجيا طريقة التعليم في السنوات الأخيرة، إذ أصبح بإمكان الطلاب التعلم عن بُعد من خلال الإنترنت. ورغم فوائد هذا التطور، إلا أن بعض المعلمين يرون أن التعليم الحضوري لا يزال أفضل لبناء العلاقة بين الطالب والمعلم.", q:[{q:"ماذا غيّرت التكنولوجيا؟", o:["طريقة الأكل","طريقة التعليم","طريقة اللبس","لا شيء"], a:1},{q:"كيف يتعلم الطلاب الآن حسب النص؟", o:["عن بُعد عبر الإنترنت","بالمراسلة فقط","لا يتعلمون","بالراديو"], a:0},{q:"ما رأي بعض المعلمين؟", o:["التعليم عن بعد أفضل","التعليم الحضوري أفضل","لا فرق","التعليم غير مهم"], a:1},{q:"لماذا يفضل بعض المعلمين الحضور؟", o:["لبناء العلاقة بين الطالب والمعلم","لأنه أرخص","لأنه أسهل","لا سبب"], a:0},{q:"ما موضوع النص؟", o:["الرياضة","التكنولوجيا والتعليم","الطبخ","السياحة"], a:1}]},
+  {title:"الحفاظ على البيئة", text:"تواجه البيئة اليوم تحديات كبيرة بسبب التلوث وقطع الأشجار. ولحماية كوكبنا، ينبغي على كل فرد أن يساهم بجهد بسيط، مثل تقليل استخدام البلاستيك وزراعة الأشجار. فالتغيير الكبير يبدأ بخطوات صغيرة.", q:[{q:"ما التحديات التي تواجه البيئة؟", o:["التلوث وقطع الأشجار","الفقر","الحروب","المرض"], a:0},{q:"ماذا ينبغي على كل فرد؟", o:["الانتظار","المساهمة بجهد بسيط","عدم الاهتمام","السفر"], a:1},{q:"ما مثال على الجهد البسيط؟", o:["زراعة الأشجار","بناء المصانع","قطع الغابات","زيادة البلاستيك"], a:0},{q:"كيف يبدأ التغيير الكبير حسب النص؟", o:["بخطوات صغيرة","بقرارات حكومية فقط","بالصدفة","لا يبدأ"], a:0},{q:"ما موضوع النص؟", o:["الاقتصاد","الحفاظ على البيئة","التاريخ","الرياضة"], a:1}]},
+  {title:"نظرية في التعليم", text:"يذهب كثير من التربويين إلى أن الدافعية الذاتية تلعب دورًا أهم من الذكاء في تحقيق النجاح الأكاديمي، إذ إن الطالب المتحمس لتعلم مادة معينة يبذل جهدًا أكبر ويتجاوز الصعوبات التي قد تُثني غيره عن الاستمرار. ولذلك توصي الدراسات الحديثة بتصميم مناهج تراعي اهتمامات الطلاب الشخصية بدلًا من فرض محتوى موحد على الجميع.", q:[{q:"ماذا يلعب دورًا أهم من الذكاء حسب النص؟", o:["المال","الدافعية الذاتية","الحظ","الوقت"], a:1},{q:"ماذا يفعل الطالب المتحمس؟", o:["يستسلم بسرعة","يبذل جهدًا أكبر","لا يهتم","ينسحب"], a:1},{q:"بماذا توصي الدراسات الحديثة؟", o:["بمناهج موحدة للجميع","بمناهج تراعي اهتمامات الطلاب","بإلغاء المناهج","بتقليل عدد المواد"], a:1},{q:"ما الذي قد يُثني الطالب غير المتحمس عن الاستمرار؟", o:["السهولة","الصعوبات","المعلم","الوقت الفائض"], a:1},{q:"ما الفكرة الرئيسية للنص؟", o:["أهمية الذكاء وحده","أهمية الدافعية الذاتية في التعلم","تاريخ التربية","أنواع المدارس"], a:1}]},
+  {title:"التحول الرقمي في المكتبات", text:"شهدت المكتبات الأكاديمية تحولًا جذريًا خلال العقد الأخير، إذ انتقل كثير منها من الاعتماد الكامل على الكتب الورقية إلى توفير قواعد بيانات رقمية ضخمة يمكن الوصول إليها من أي مكان. وقد أثار هذا التحول نقاشًا بين المختصين حول مستقبل الكتاب الورقي، فبينما يرى فريق أن الرقمنة ستقضي عليه تدريجيًا، يرى فريق آخر أن الكتاب الورقي سيظل له مكانته الخاصة لدى فئة من القراء.", q:[{q:"ما التحول الذي شهدته المكتبات؟", o:["زيادة عدد الكتب الورقية","التحول إلى قواعد بيانات رقمية","إغلاق المكتبات","تقليل عدد الموظفين"], a:1},{q:"ما ميزة قواعد البيانات الرقمية حسب النص؟", o:["الوصول من أي مكان","أنها أرخص فقط","أنها أقدم","لا ميزة"], a:0},{q:"ما رأي الفريق الأول حول الكتاب الورقي؟", o:["سيبقى كما هو","سيقضي عليه الرقمنة تدريجيًا","سيزداد انتشاره","لا رأي له"], a:1},{q:"ما رأي الفريق الثاني؟", o:["الكتاب الورقي سيختفي","الكتاب الورقي سيظل له مكانته","لا أحد يقرأ الكتب","الرقمنة غير مفيدة"], a:1},{q:"ما موضوع النص؟", o:["تاريخ الطباعة","التحول الرقمي في المكتبات","أنواع الكتب","بناء المكتبات"], a:1}]},
+  {title:"اللغة العربية والهوية", text:"ترتبط اللغة العربية ارتباطًا وثيقًا بالهوية الثقافية للناطقين بها، فهي ليست مجرد وسيلة للتواصل، بل وعاء يحمل تراثًا فكريًا وأدبيًا ممتدًا عبر قرون. ومن هنا تنبع أهمية الحفاظ عليها وتعليمها للأجيال الجديدة، خاصة في ظل انتشار اللغات الأجنبية وتأثيرها المتزايد على استخدامات اللغة اليومية.", q:[{q:"بم ترتبط اللغة العربية حسب النص؟", o:["بالاقتصاد","بالهوية الثقافية","بالسياسة فقط","بالتجارة"], a:1},{q:"ماذا تحمل اللغة العربية غير التواصل؟", o:["تراثًا فكريًا وأدبيًا","لا شيء","معلومات تقنية فقط","أرقامًا"], a:0},{q:"لماذا يجب الحفاظ على اللغة العربية حسب النص؟", o:["لأنها سهلة","لأنها وعاء للتراث والهوية","لأنها الوحيدة الموجودة","لا سبب"], a:1},{q:"ما الذي يهدد استخدامات اللغة اليومية حسب النص؟", o:["انتشار اللغات الأجنبية","قلة السكان","الحروب","الفقر"], a:0},{q:"ما الفكرة الرئيسية للنص؟", o:["تاريخ اللغة العربية","أهمية اللغة العربية للهوية الثقافية","قواعد النحو","أنواع اللهجات"], a:1}]}
 ];
 
 /* ================= LOGIK APLIKASI ================= */
+function buildSteps(){
+  const steps = [];
+  ISTIMA.forEach((s, i) => steps.push({
+    type: 'istima', sectionLabel: 'فهم المسموع (Listening)', context: s.script, audio: s.audio, title: s.title,
+    questions: s.q.map((qq, qi) => ({...qq, id: `is-${i}-${qi}`, section: 'istima'}))
+  }));
+  for(let i = 0; i < TARAKIB.length; i += 5){
+    const chunk = TARAKIB.slice(i, i + 5).map((t, ti) => ({...t, id: `ta-${i}-${ti}`, section: 'tarakib'}));
+    steps.push({ type: 'tarakib', sectionLabel: 'فهم التراكيب والقواعد (Structure)', context: null, title: 'أسئلة القواعد', questions: chunk });
+  }
+  QIROAAH.forEach((p, i) => steps.push({
+    type: 'qiroaah', sectionLabel: 'فهم المقروء (Reading)', context: p.text, title: p.title,
+    questions: p.q.map((qq, qi) => ({...qq, id: `qi-${i}-${qi}`, section: 'qiroaah'}))
+  }));
+  return steps;
+}
+
+const STEPS = buildSteps();
+const TOTAL_Q = 100;
+
 let screen = 'landing';
 let participantName = '';
 let stepIndex = 0;
 let answers = {};
+let isPaid = false;
+let calculatedScore = 500;
 
-function buildSteps() {
-  const steps = [];
-  ISTIMA.forEach((s, i) => {
-    steps.push({
-      type: 'istima',
-      sectionLabel: 'فهم المسموع (Listening)',
-      context: s.script,
-      audio: s.audio,
-      title: s.title,
-      questions: s.q.map((qq, qi) => ({...qq, id: `is-${i}-${qi}`, section: 'istima'}))
-    });
-  });
-
-  for(let i = 0; i < TARAKIB.length; i += 5) {
-    const chunk = TARAKIB.slice(i, i + 5).map((t, ti) => ({...t, id: `ta-${i}-${ti}`, section: 'tarakib'}));
-    steps.push({
-      type: 'tarakib',
-      sectionLabel: 'فهم التراكيب والقواعد (Structure)',
-      context: null,
-      title: 'أسئلة القواعد',
-      questions: chunk
-    });
-  }
-
-  QIROAAH.forEach((p, i) => {
-    steps.push({
-      type: 'qiroaah',
-      sectionLabel: 'فهم المقروء (Reading)',
-      context: p.text,
-      title: p.title,
-      questions: p.q.map((qq, qi) => ({...qq, id: `qi-${i}-${qi}`, section: 'qiroaah'}))
-    });
-  });
-  return steps;
-}
-
-let STEPS = buildSteps();
-
-function getTotalQuestions() {
-  return STEPS.reduce((sum, step) => sum + step.questions.length, 0);
-}
-
-function calculateScore() {
+function computeScore() {
   let correct = 0;
-  let secCorrect = {istima: 0, tarakib: 0, qiroaah: 0};
-  let secTotal = {istima: 0, tarakib: 0, qiroaah: 0};
-
-  STEPS.forEach(step => step.questions.forEach(q => {
-    secTotal[q.section]++;
-    if(answers[q.id] === q.a) {
-      correct++;
-      secCorrect[q.section]++;
-    }
-  }));
-
-  const total = getTotalQuestions();
-  const scaled = Math.round(200 + (correct / (total || 1)) * 477);
-  return {correct, total, scaled, secCorrect, secTotal};
+  STEPS.forEach(st => st.questions.forEach(q => { if(answers[q.id] === q.a) correct++; }));
+  calculatedScore = Math.round(310 + (correct / TOTAL_Q) * 367);
+  return { correct, scaled: calculatedScore };
 }
 
 function render() {
-  STEPS = buildSteps();
   const app = document.getElementById('app');
   app.innerHTML = '';
 
+  /* 1. HALAMAN LANDING (NAMA & ATURAN LENGKAP) */
   if (screen === 'landing') {
     app.innerHTML = `
-      <div class="card">
-        <h3>اختبار محاكاة التوفل العربي (TOAFL)</h3>
-        <p style="color:var(--ink-soft); font-size:14px; line-line:1.6;">
-          إجمالي الأسئلة المتاحة حاليًا: <b>${getTotalQuestions()} سؤالاً</b>.
+      <div class="bg-emerald-900 text-white rounded-2xl p-6 md:p-8 mb-6 shadow-lg text-center relative overflow-hidden">
+        <p class="text-amber-300 text-xs tracking-widest uppercase mb-2 font-bold">TEST OF ARABIC AS A FOREIGN LANGUAGE</p>
+        <h1 class="text-3xl md:text-4xl font-bold mb-3">اختبر مستواك في اللغة العربية</h1>
+        <p class="text-emerald-100 text-sm leading-relaxed max-w-xl mx-auto mb-6">
+          ١٠٠ سؤال في الاستماع والتراكيب والقراءة. اختبار مجاني بالكامل — تدفع فقط عند رغبتك بإصدار الشهادة الرسمية بصيغة PNG/PDF.
         </p>
-        <label>اسم المشارك</label>
-        <input type="text" id="nameInput" placeholder="أدخل اسمك هنا" value="${participantName}">
-        <div style="height:14px"></div>
-        <button class="btn btn-primary" id="startBtn">ابدأ الاختبار الآن</button>
+        <div class="flex justify-center gap-4 text-center">
+          <div class="bg-white/10 border border-amber-300/30 rounded-xl p-3 flex-1 max-w-[100px]"><b class="block text-xl text-amber-200">١٠٠</b><span class="text-xs text-emerald-200">سؤال</span></div>
+          <div class="bg-white/10 border border-amber-300/30 rounded-xl p-3 flex-1 max-w-[100px]"><b class="block text-xl text-amber-200">٣</b><span class="text-xs text-emerald-200">أقسام</span></div>
+          <div class="bg-white/10 border border-amber-300/30 rounded-xl p-3 flex-1 max-w-[100px]"><b class="block text-xl text-amber-200">١٠٠</b><span class="text-xs text-emerald-200">دقيقة</span></div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 mb-6">
+        <h3 class="text-xl font-bold text-emerald-900 mb-2">تعليمات واشتراطات الاختبار</h3>
+        <ul class="text-sm text-slate-600 leading-relaxed space-y-2 mb-6 list-disc list-inside">
+          <li>يتكون الاختبار من ٣ أجزاء: فهم المسموع (٣٠ سؤالاً)، فهم التراكيب (٢٠ سؤالاً)، وفهم المقروء (٥٠ سؤالاً).</li>
+          <li>تأكد من اختيار الإجابة الصحيحة لكل سؤال قبل الانتقال إلى الصفحة التالية.</li>
+          <li>يمكنك الاطلاع على النتيجة فور الانتهاء من جميع الأسئلة مجانًا.</li>
+        </ul>
+
+        <label class="block text-xs font-bold text-slate-600 uppercase mb-2">اسم المشارك (كما سيظهر في الشهادة)</label>
+        <input type="text" id="nameInput" class="w-full p-3.5 border border-slate-200 rounded-xl mb-4 focus:outline-none focus:border-emerald-600 bg-slate-50 text-base" placeholder="أدخل اسمك الكامل هنا..." value="${participantName}">
+        <button id="startBtn" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-4 rounded-xl shadow-md transition">ابدأ الاختبار الآن</button>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3 text-center text-xs">
+        <div class="bg-white p-3 rounded-xl border border-slate-200"><b class="block text-emerald-800 text-base font-serif">٣٠</b><span>فهم المسموع</span></div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200"><b class="block text-emerald-800 text-base font-serif">٢٠</b><span>فهم التراكيب</span></div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200"><b class="block text-emerald-800 text-base font-serif">٥٠</b><span>فهم المقروء</span></div>
       </div>
     `;
+
     setTimeout(() => {
       document.getElementById('startBtn').onclick = () => {
         const val = document.getElementById('nameInput').value.trim();
-        if(!val) return;
+        if(!val) return alert('الرجاء كتابة الاسم للبدء');
         participantName = val;
         stepIndex = 0;
         answers = {};
@@ -169,84 +155,144 @@ function render() {
         render();
       };
     }, 0);
-  } 
+  }
+
+  /* 2. HALAMAN UJIAN (100 SOAL) */
   else if (screen === 'quiz') {
     const step = STEPS[stepIndex];
-    const pct = Math.round((stepIndex / STEPS.length) * 100);
+    const pct = Math.round(((stepIndex + 1) / STEPS.length) * 100);
 
     let qHtml = '';
     step.questions.forEach(q => {
       const opts = q.o.map((opt, oi) => 
-        `<div class="opt ${answers[q.id] === oi ? 'selected' : ''}" onclick="selectOpt('${q.id}', ${oi})">${opt}</div>`
+        `<div class="opt-btn ${answers[q.id] === oi ? 'selected' : ''}" onclick="selectOpt('${q.id}', ${oi})">${opt}</div>`
       ).join('');
-      qHtml += `<div class="qblock"><div class="qtext">${q.q}</div>${opts}</div>`;
+      qHtml += `<div class="mb-6 pb-4 border-b border-dashed border-slate-200"><div class="font-bold text-base text-emerald-900 mb-3">${q.q}</div>${opts}</div>`;
     });
 
     app.innerHTML = `
-      <div class="progress-row">
-        <span style="font-size:12px; color:var(--ink-soft)">الخطوة ${stepIndex + 1} / ${STEPS.length}</span>
-        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="flex justify-between items-center mb-3 text-xs text-slate-500 font-bold">
+        <span>الخطوة ${stepIndex + 1} من ${STEPS.length}</span>
+        <span>${pct}%</span>
       </div>
-      <span class="section-pill">${step.sectionLabel}</span>
-      ${step.audio ? `
-        <div class="context-box">
-          <audio controls src="${step.audio}" style="width:100%"></audio>
+      <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-6">
+        <div class="bg-emerald-600 h-full transition-all duration-300" style="width:${pct}%"></div>
+      </div>
+
+      <span class="inline-block bg-emerald-800 text-white text-xs font-bold px-3 py-1 rounded-full mb-4">${step.sectionLabel}</span>
+
+      ${step.context ? `
+        <div class="bg-emerald-950 text-slate-100 p-5 rounded-2xl mb-6 font-serif text-lg leading-loose border border-emerald-800">
+          <span class="text-xs text-amber-300 uppercase tracking-widest block font-sans mb-2">${step.type === 'istima' ? 'نص الاستماع' : 'نص القراءة'}</span>
+          ${step.context}
         </div>` : ''}
-      ${step.context ? `<div class="context-box">${step.context}</div>` : ''}
-      <div class="card">
-        <h3>${step.title}</h3>
+
+      <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 mb-6">
+        <h3 class="text-lg font-bold text-emerald-900 mb-4">${step.title}</h3>
         ${qHtml}
       </div>
-      <div class="nav-row">
-        ${stepIndex > 0 ? `<button class="btn btn-ghost" onclick="prevStep()">السابق</button>` : ''}
-        <button class="btn btn-primary" onclick="nextStep()">${stepIndex === STEPS.length - 1 ? 'إنهاء الاختبار' : 'التالي'}</button>
+
+      <div class="flex gap-3">
+        ${stepIndex > 0 ? `<button onclick="prevStep()" class="flex-1 border border-emerald-800 text-emerald-800 font-bold py-3.5 rounded-xl">السابق</button>` : ''}
+        <button onclick="nextStep()" class="flex-1 bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3.5 rounded-xl shadow-md">
+          ${stepIndex === STEPS.length - 1 ? 'إنهاء الاختبار' : 'التالي'}
+        </button>
       </div>
     `;
-  } 
+  }
+
+  /* 3. HALAMAN HASIL & PEMBAYARAN & SERTIFIKAT */
   else if (screen === 'result') {
-    const res = calculateScore();
+    const res = computeScore();
+    
     app.innerHTML = `
-      <div class="score-hero">
-        <h2>${participantName}</h2>
-        <div class="score-big">${res.scaled}</div>
-        <div style="font-size:13px; color:var(--sage)">الإجابات الصحيحة: ${res.correct} من أصل ${res.total}</div>
+      <div class="bg-emerald-900 text-white rounded-2xl p-8 text-center shadow-lg mb-6">
+        <p class="text-amber-300 text-xs uppercase tracking-widest font-bold mb-1">النتيجة النهائية</p>
+        <h2 class="text-2xl font-bold mb-2">${participantName}</h2>
+        <div class="text-6xl font-bold font-serif text-amber-200 my-2">${res.scaled}</div>
+        <p class="text-emerald-100 text-xs">درجة الاختبار المنقولة (من ٣١٠ إلى ٦٧٧)</p>
       </div>
-      <div class="breakdown">
-        <div class="bd-item"><b>${res.secCorrect.istima}/${res.secTotal.istima}</b><span>فهم المسموع</span></div>
-        <div class="bd-item"><b>${res.secCorrect.tarakib}/${res.secTotal.tarakib}</b><span>فهم التراكيب</span></div>
-        <div class="bd-item"><b>${res.secCorrect.qiroaah}/${res.secTotal.qiroaah}</b><span>فهم المقروء</span></div>
+
+      <!-- KOTAK PEMBAYARAN MIDTRANS -->
+      <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 text-center mb-8">
+        <h3 class="text-xl font-bold text-emerald-900 mb-2">إصدار وتنزيل الشهادة الرسمية</h3>
+        <p class="text-slate-600 text-sm mb-4">قم بإتمام عملية التسديد عبر البوابة لتحميل شهادتك الرسمية.</p>
+        <button id="payBtn" onclick="processPayment()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3.5 px-6 rounded-xl shadow transition mb-2">
+          ${isPaid ? 'تم التسديد — يمكنك تحميل الشهادة الآن' : 'دفع واستخراج الشهادة (Rp 50.000)'}
+        </button>
       </div>
-      <div style="margin-top:20px;">
-        <button class="btn btn-primary" onclick="restart()">إعادة الاختبار</button>
+
+      <!-- DESAIN SERTIFIKAT KITA SEBELUMNYA (HIJAU SAFE-RENDER) -->
+      <div class="bg-slate-200 p-4 rounded-2xl shadow-inner mb-6 overflow-x-auto">
+        <div id="certificate" dir="rtl" class="bg-white p-8 md:p-12 rounded-xl border-4 border-emerald-800 text-center shadow-lg min-w-[650px]">
+          <!-- Logo -->
+          <img src="/logo.png" alt="Logo" class="h-20 mx-auto mb-4 object-contain" />
+
+          <!-- Header Sertifikat -->
+          <h1 class="text-3xl font-bold text-emerald-900 mb-1">شهادة إتمام اختبار</h1>
+          <p class="text-xs text-amber-700 tracking-widest uppercase mb-6">CERTIFICATE OF ACHIEVEMENT - TOAFL PRACTICE</p>
+
+          <!-- Content -->
+          <p class="text-slate-500 text-sm mb-2">يشهد هذا المستند بأن المشارك:</p>
+          <h2 id="cert-name" class="text-3xl font-bold text-slate-800 my-4 border-b-2 border-emerald-700 inline-block px-8 pb-1">
+            ${participantName}
+          </h2>
+          <p class="text-slate-600 text-sm max-w-2xl mx-auto leading-relaxed my-4">
+            قد أتم بنجاح اختبار محاكاة التوفل العربي (Test of Arabic as a Foreign Language) وحصل على النتيجة التالية:
+          </p>
+
+          <!-- Box Skor Safe-Render (Inline-Block & Hex Color) -->
+          <div class="mt-6 inline-block bg-emerald-50 border border-emerald-200 px-8 py-3 rounded-2xl text-center">
+            <span class="text-xs font-bold uppercase tracking-wider mr-2" style="color: #64748b;">درجة الاختبار:</span>
+            <span id="cert-score" class="text-4xl font-extrabold" style="color: #047857;">${res.scaled}</span>
+          </div>
+
+          <!-- Footer Tanda Tangan -->
+          <div class="flex justify-between items-end px-12 mt-12 text-xs text-slate-600">
+            <div class="text-center w-48">
+              <p class="text-slate-400 mb-1">تاريخ الإصدار</p>
+              <p class="font-bold border-b border-slate-300 pb-1">14 أغسطس 2026</p>
+            </div>
+            <div class="text-center w-48">
+              <p class="text-slate-400 mb-1">الجهة المنظمة</p>
+              <p class="font-bold border-b border-slate-300 pb-1">TOAFL Ta'allum</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tombol Unduh Sertifikat -->
+      <div class="text-center mb-8">
+        <button onclick="downloadCertificate()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 px-8 rounded-xl shadow-md transition">
+          تحميل الشهادة (Download PNG)
+        </button>
       </div>
     `;
   }
 }
 
-function selectOpt(qid, oi) {
-  answers[qid] = oi;
+function selectOpt(qid, oi) { answers[qid] = oi; render(); }
+function nextStep() { if (stepIndex < STEPS.length - 1) { stepIndex++; render(); } else { screen = 'result'; render(); } }
+function prevStep() { if (stepIndex > 0) { stepIndex--; render(); } }
+
+function processPayment() {
+  alert('سيتم تحويلك الآن إلى بوابة الدفع (Midtrans)...');
+  isPaid = true;
   render();
 }
-function nextStep() {
-  if (stepIndex < STEPS.length - 1) {
-    stepIndex++;
-    render();
-  } else {
-    screen = 'result';
-    render();
+
+async function downloadCertificate() {
+  if (!isPaid) {
+    alert('يرجى الدفع أولاً لتتمكن من تحميل الشهادة');
+    return;
   }
-}
-function prevStep() {
-  if (stepIndex > 0) {
-    stepIndex--;
-    render();
-  }
-}
-function restart() {
-  screen = 'landing';
-  stepIndex = 0;
-  answers = {};
-  render();
+  await document.fonts.ready;
+  const element = document.getElementById('certificate');
+  const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+  const link = document.createElement('a');
+  link.download = `Sertifikat_TOAFL_${participantName}.png`;
+  link.href = canvas.toDataURL();
+  link.click();
 }
 
 render();
