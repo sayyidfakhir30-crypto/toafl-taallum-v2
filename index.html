@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulasi TOAFL Interaktif</title>
+  <meta name="description" content="Platform Latihan Ujian TOAFL Bahasa Arab Online">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-arabic { font-family: 'Amiri', serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="bg-emerald-700 text-white p-4 shadow-md sticky top-0 z-20">
+    <div class="max-w-3xl mx-auto flex justify-between items-center">
+      <div class="font-bold text-lg tracking-wide">TOAFL Ta'allum</div>
+      <div id="timer" class="bg-emerald-900/80 px-3 py-1 rounded-lg font-mono font-bold text-amber-300 text-sm">30:00</div>
+    </div>
+  </header>
+
+  <!-- Container Utama -->
+  <main class="max-w-3xl mx-auto w-full p-4 flex-grow">
+    
+    <!-- Box Audio (Istima') -->
+    <div id="audio-container" class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl mb-4 hidden">
+      <p class="text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2">Sesi Listening (Istima')</p>
+      <audio id="toafl-audio" class="w-full mb-1" controls></audio>
+      <p class="text-xs text-slate-500">Sisa pemutaran audio: <span id="audio-plays" class="font-bold text-emerald-700">2</span>/2</p>
+    </div>
+
+    <!-- Box Soal -->
+    <div class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
+        <span id="question-category" class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">Tarakib</span>
+        <span id="question-number" class="text-xs font-semibold text-slate-400">Soal 1 dari 2</span>
+      </div>
+
+      <div id="question-text" class="text-2xl sm:text-3xl font-arabic leading-loose text-right my-6 text-slate-800" dir="rtl"></div>
+
+      <!-- Opsi Jawaban -->
+      <div id="options-container" class="space-y-3"></div>
+    </div>
+
+    <!-- Tombol Navigasi -->
+    <div class="flex justify-between items-center mt-6">
+      <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-sm rounded-xl transition disabled:opacity-40">Sebelumnya</button>
+      <button id="next-btn" onclick="nextQuestion()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-xl shadow-md transition">Berikutnya</button>
+    </div>
+
+  </main>
+
+  <!-- Modal Hasil -->
+  <div id="result-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden p-4 z-50">
+    <div class="bg-white p-6 sm:p-8 rounded-2xl max-w-sm w-full shadow-2xl text-center">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">✓</div>
+      <h2 class="text-xl font-bold text-slate-800 mb-1">Ujian Selesai!</h2>
+      <p class="text-xs text-slate-500 mb-4">Skor TOAFL Anda berhasil dihitung.</p>
+      
+      <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-6">
+        <span class="text-xs font-medium text-slate-400 block mb-1">SKOR AKHIR</span>
+        <span id="final-score" class="text-4xl font-extrabold text-emerald-600">0</span>
+      </div>
+
+      <div class="space-y-2">
+        <button onclick="goToCertificate()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow transition">Cetak Sertifikat</button>
+        <button onclick="restartQuiz()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-xs rounded-xl transition">Ulangi Ujian</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        category: "Tarakib & Qawaid",
+        text: "الطَّالِبُ الجديدُ ....... إِلَى المَكْتَبَةِ أَمْسِ.",
+        audio: "",
+        options: ["ذَهَبَ", "يَذْهَبُ", "ذَهَبُوا", "تَذْهَبُ"],
+        correct: 0
+      },
+      {
+        category: "Istima'",
+        text: "مَا المَوْضُوعُ الرَّئِيسِيُّ لِلْحِوَارِ؟",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        options: ["السَّفَرُ بِالطَّائِرَةِ", "الدِّرَاسَةُ فِي الجَامِعَةِ", "التَّسَوُّقُ فِي السُّوقِ", "العِلَاجُ فِي المُسْتَشْفَى"],
+        correct: 1
+      }
+    ];
+
+    let currentIndex = 0;
+    let userAnswers = JSON.parse(localStorage.getItem('toafl_answers')) || {};
+    let timeLeft = parseInt(localStorage.getItem('toafl_timer')) || 1800;
+    let audioPlayCount = 0;
+    const maxAudioPlays = 2;
+
+    function init() {
+      startTimer();
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById('question-category').innerText = q.category;
+      document.getElementById('question-number').innerText = `Soal ${currentIndex + 1} dari${questions.length}`;
+      document.getElementById('question-text').innerText = q.text;
+
+      const audioContainer = document.getElementById('audio-container');
+      const audioEl = document.getElementById('toafl-audio');
+      if (q.audio) {
+        audioContainer.classList.remove('hidden');
+        audioEl.src = q.audio;
+        audioPlayCount = 0;
+        document.getElementById('audio-plays').innerText = maxAudioPlays;
+        audioEl.onplay = () => {
+          audioPlayCount++;
+          document.getElementById('audio-plays').innerText = Math.max(0, maxAudioPlays - audioPlayCount);
+          if (audioPlayCount >= maxAudioPlays) {
+            audioEl.onended = () => { audioEl.controls = false; };
+          }
+        };
+      } else {
+        audioContainer.classList.add('hidden');
+      }
+
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const isSelected = userAnswers[currentIndex] === idx;
+        const btn = document.createElement('button');
+        btn.className = `w-full text-right p-4 rounded-xl border text-xl font-arabic transition-all ${
+          isSelected 
+            ? 'border-emerald-600 bg-emerald-50/80 font-bold text-emerald-900 shadow-sm' 
+            : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+        }`;
+        btn.innerText = opt;
+        btn.onclick = () => selectOption(idx);
+        optionsContainer.appendChild(btn);
+      });
+
+      document.getElementById('prev-btn').disabled = currentIndex === 0;
+      document.getElementById('next-btn').innerText = currentIndex === questions.length - 1 ? 'Selesai' : 'Berikutnya';
+    }
+
+    function selectOption(index) {
+      userAnswers[currentIndex] = index;
+      localStorage.setItem('toafl_answers', JSON.stringify(userAnswers));
+      renderQuestion();
+    }
+
+    function nextQuestion() {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        submitQuiz();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    }
+
+    function startTimer() {
+      const timerEl = document.getElementById('timer');
+      const interval = setInterval(() => {
+        timeLeft--;
+        localStorage.setItem('toafl_timer', timeLeft);
+        const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+        const secs = (timeLeft % 60).toString().padStart(2, '0');
+        timerEl.innerText = `${mins}:${secs}`;
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          submitQuiz();
+        }
+      }, 1000);
+    }
+
+    let calculatedScore = 0;
+
+    function submitQuiz() {
+      let correctCount = 0;
+      questions.forEach((q, idx) => {
+        if (userAnswers[idx] === q.correct) correctCount++;
+      });
+      calculatedScore = Math.round((correctCount / questions.length) * 500);
+      document.getElementById('final-score').innerText = calculatedScore;
+      document.getElementById('result-modal').classList.remove('hidden');
+    }
+
+    function goToCertificate() {
+      const name = prompt("Masukkan Nama Lengkap Anda untuk Sertifikat:", "Peserta TOAFL");
+      if (name) {
+        window.location.href = `sertifikat.html?nama=${encodeURIComponent(name)}&skor=${calculatedScore}`;
+      }
+    }
+
+    function restartQuiz() {
+      localStorage.clear();
+      location.reload();
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "toafl-taallum-pro",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "midtrans-client": "^1.3.1"
+  }
+}
