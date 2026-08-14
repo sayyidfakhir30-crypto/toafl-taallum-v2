@@ -45,7 +45,7 @@ const TARAKIB = [
   {q:"جاء الطلابُ ___.", o:["كلُّهم","كلَّهم","كلِّهم","كلها"], a:0},
   {q:"لم ___ الطالبُ الدرسَ.", o:["يفهمْ","يفهمُ","فهمَ","يفهمون"], a:0},
   {q:"هذا الكتابُ ___ من ذلك.", o:["أفضلَ","أفضلُ","أفضلًا","الأفضل"], a:1},
-  {q:"سافر الطلابُ ___ لدراسةِ اللغةِ.", o:["لِ","على","عن","في"], a:0},
+  {q:"سافر الطلابُ ___ دراسةِ اللغةِ.", o:["لِ","على","عن","في"], a:0},
   {q:"ما ___ اسمُك؟", o:["هو","هي","أنت","ذلك"], a:0},
   {q:"لولا الاجتهادُ ___ النجاحُ.", o:["لَما حصلَ","يحصلُ","حصلَ","سيحصلُ"], a:0},
   {q:"جاء الطالبُ الذي ___ في المسابقةِ.", o:["فاز","فازَت","يفوز","فائزون"], a:0},
@@ -106,10 +106,12 @@ function computeScore() {
   return { correct, scaled, secCorrect };
 }
 
-function render() {
+function render(shouldScroll = true) {
   const app = document.getElementById('app');
   app.innerHTML = '';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (shouldScroll) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   if (screen === 'landing') {
     app.innerHTML = `
@@ -127,7 +129,7 @@ function render() {
       </div>
 
       <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 mb-6">
-        <h3 class="text-xl font-bold text-emerald-900 mb-2">تعليمات وااشتراطات الاختبار</h3>
+        <h3 class="text-xl font-bold text-emerald-900 mb-2">تعليمات واشتراطات الاختبار</h3>
         <ul class="text-sm text-slate-600 leading-relaxed space-y-2 mb-6 list-disc list-inside">
           <li>يتكون الاختبار من ٣ أجزاء: فهم المسموع (٣٠ سؤالاً)، فهم التراكيب (٢٠ سؤالاً)، وفهم المقروء (٥٠ سؤالاً).</li>
           <li>تأكد من اختيار الإجابة الصحيحة لكل سؤال قبل الانتقال إلى الصفحة التالية.</li>
@@ -148,7 +150,7 @@ function render() {
         stepIndex = 0;
         answers = {};
         screen = 'quiz';
-        render();
+        render(true);
       };
     }, 0);
   }
@@ -162,7 +164,7 @@ function render() {
       const opts = q.o.map((opt, oi) => 
         `<div class="opt-btn ${answers[q.id] === oi ? 'selected' : ''}" onclick="selectOpt('${q.id}', ${oi})">${opt}</div>`
       ).join('');
-      qHtml += `<div class="mb-6 pb-4 border-b border-dashed border-slate-200"><div class="font-bold text-base text-emerald-900 mb-3">${q.q}</div>${opts}</div>`;
+      qHtml += `<div id="q-box-${q.id}" class="mb-6 pb-4 border-b border-dashed border-slate-200"><div class="font-bold text-base text-emerald-900 mb-3">${q.q}</div>${opts}</div>`;
     });
 
     app.innerHTML = `
@@ -230,7 +232,18 @@ function selectOpt(qid, oi) {
   answers[qid] = oi; 
   const warn = document.getElementById('warnMsg');
   if (warn) warn.classList.add('hidden');
-  render(); 
+  
+  const container = document.getElementById(`q-box-${qid}`);
+  if (container) {
+    const btns = container.querySelectorAll('.opt-btn');
+    btns.forEach((btn, idx) => {
+      if (idx === oi) {
+        btn.classList.add('selected');
+      } else {
+        btn.classList.remove('selected');
+      }
+    });
+  }
 }
 
 function nextStep() {
@@ -246,53 +259,29 @@ function nextStep() {
   if (warn) warn.classList.add('hidden');
   if (stepIndex < STEPS.length - 1) {
     stepIndex++;
-    render();
+    render(true);
   } else {
     screen = 'result';
-    render();
+    render(true);
   }
 }
 
 function prevStep() { 
   if (stepIndex > 0) { 
     stepIndex--; 
-    render(); 
+    render(true); 
   } 
 }
 
-async function processPayment() {
-  const btn = document.getElementById('payBtn');
-  btn.disabled = true;
-  btn.textContent = 'جاري تحضير رابط الدفع...';
-
+function processPayment() {
   const res = computeScore();
   const certId = 'TA-' + Math.floor(100000 + Math.random() * 900000);
   
-  try {
-    const resp = await fetch('/api/create-payment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        certId: certId,
-        participantName: participantName,
-        scoreScaled: res.scaled,
-        sectionIstima: res.secCorrect.istima,
-        sectionTarakib: res.secCorrect.tarakib,
-        sectionQiroaah: res.secCorrect.qiroaah
-      })
-    });
-    const data = await resp.json();
-    if (data.redirectUrl) {
-      window.location.href = data.redirectUrl;
-    } else {
-      window.location.href = `/sertifikat.html?cert=${certId}&name=${encodeURIComponent(participantName)}&score=${res.scaled}&is=${res.secCorrect.istima}&ta=${res.secCorrect.tarakib}&qi=${res.secCorrect.qiroaah}`;
-    }
-  } catch (err) {
-    window.location.href = `/sertifikat.html?cert=${certId}&name=${encodeURIComponent(participantName)}&score=${res.scaled}&is=${res.secCorrect.istima}&ta=${res.secCorrect.tarakib}&qi=${res.secCorrect.qiroaah}`;
-  }
+  alert('تم الدفع بنجاح! (Simulasi Pembayaran Berhasil — Sandbox Test)');
+  window.location.href = `/sertifikat.html?cert=${certId}&name=${encodeURIComponent(participantName)}&score=${res.scaled}&is=${res.secCorrect.istima}&ta=${res.secCorrect.tarakib}&qi=${res.secCorrect.qiroaah}&paid=true`;
 }
 
-render();
+render(true);
 </script>
 </body>
 </html>
