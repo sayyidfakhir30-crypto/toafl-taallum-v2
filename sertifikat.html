@@ -206,7 +206,6 @@ async function init() {
   document.getElementById('dispQi').textContent = qi;
   document.getElementById('dispId').textContent = certId || ('TA-' + Math.floor(100000 + Math.random() * 900000));
 
-  // Waktu terbit & masa berlaku (1 tahun)
   const now = new Date();
   const exp = new Date();
   exp.setFullYear(now.getFullYear() + 1);
