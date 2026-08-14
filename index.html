@@ -130,11 +130,15 @@ function render(shouldScroll = true) {
 
       <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 mb-6">
         <h3 class="text-xl font-bold text-emerald-900 mb-2">تعليمات واشتراطات الاختبار</h3>
-        <ul class="text-sm text-slate-600 leading-relaxed space-y-2 mb-6 list-disc list-inside">
+        <ul class="text-sm text-slate-600 leading-relaxed space-y-2 mb-4 list-disc list-inside">
           <li>يتكون الاختبار من ٣ أجزاء: فهم المسموع (٣٠ سؤالاً)، فهم التراكيب (٢٠ سؤالاً)، وفهم المقروء (٥٠ سؤالاً).</li>
-          <li>تأكد من اختيار الإجابة الصحيحة لكل سؤال قبل الانتقال إلى الصفحة التالية.</li>
           <li>يمكنك الاطلاع على النتيجة فور الانتهاء من جميع الأسئلة مجانًا.</li>
         </ul>
+
+        <!-- DISCLAIMER TRANSPARANSI BAHASA INDONESIA -->
+        <div class="bg-amber-50 border border-amber-200 text-amber-900 text-xs p-3.5 rounded-xl mb-6 leading-relaxed font-sans" dir="ltr">
+          <b>Catatan:</b> Sertifikat ini diterbitkan secara independen oleh <b>Ta'allum Arabic</b> sebagai bukti kualifikasi kemampuan bahasa Arab dan berkas pendukung portofolio mandiri.
+        </div>
 
         <label class="block text-xs font-bold text-slate-600 uppercase mb-2">اسم المشارك (كما سيظهر في الشهادة)</label>
         <input type="text" id="nameInput" class="w-full p-3.5 border border-slate-200 rounded-xl mb-4 focus:outline-none focus:border-emerald-600 bg-slate-50 text-base" placeholder="أدخل اسمك الكامل هنا..." value="${participantName}">
