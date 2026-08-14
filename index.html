@@ -194,10 +194,6 @@ function render(shouldScroll = true) {
         ${qHtml}
       </div>
 
-      <div id="warnMsg" class="hidden mb-4 p-4 rounded-xl bg-red-50 text-red-700 text-sm font-bold border border-red-200 text-center">
-        ⚠️ يوجد أسئلة لم يتم الإجابة عليها في هذه الصفحة. الرجاء الإجابة على جميع الأسئلة قبل الانتقال.
-      </div>
-
       <div class="flex gap-3">
         ${stepIndex > 0 ? `<button onclick="prevStep()" class="flex-1 border border-emerald-800 text-emerald-800 font-bold py-3.5 rounded-xl">السابق</button>` : ''}
         <button onclick="nextStep()" class="flex-1 bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3.5 rounded-xl shadow-md">
@@ -230,8 +226,6 @@ function render(shouldScroll = true) {
 
 function selectOpt(qid, oi) { 
   answers[qid] = oi; 
-  const warn = document.getElementById('warnMsg');
-  if (warn) warn.classList.add('hidden');
   
   const container = document.getElementById(`q-box-${qid}`);
   if (container) {
@@ -247,16 +241,6 @@ function selectOpt(qid, oi) {
 }
 
 function nextStep() {
-  const step = STEPS[stepIndex];
-  const allAnswered = step.questions.every(q => answers[q.id] !== undefined);
-  const warn = document.getElementById('warnMsg');
-
-  if (!allAnswered) {
-    if (warn) warn.classList.remove('hidden');
-    return;
-  }
-
-  if (warn) warn.classList.add('hidden');
   if (stepIndex < STEPS.length - 1) {
     stepIndex++;
     render(true);
