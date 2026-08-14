@@ -43,57 +43,67 @@
             <h2 class="text-xl font-bold tracking-widest text-emerald-800 font-sans mt-0.5">TEST OF ARABIC AS A FOREIGN LANGUAGE</h2>
           </div>
 
-          <div class="w-24 text-left">
-            <img src="/logo.png" alt="Logo" class="h-20 object-contain mx-auto" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23047857\'/><text x=\'50%\' y=\'50%\' fill=\'%23ffffff\' font-size=\'14\' text-anchor=\'middle\' dy=\'.3em\'>LOGO</text></svg>'"/>
+          <div class="w-24 text-center">
+            <img id="logoImg" src="/logo.png" alt="Logo" class="h-20 object-contain mx-auto" onerror="this.onerror=null; this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"/>
+            <div id="logoFallback" class="hidden w-16 h-16 bg-emerald-800 text-amber-300 font-bold rounded-full items-center justify-center mx-auto text-xl shadow font-serif border-2 border-amber-400">
+              تعلّم
+            </div>
           </div>
         </div>
 
         <!-- JUDUL -->
-        <div class="text-center my-4">
-          <h1 class="text-5xl font-bold text-emerald-950 font-serif leading-none mb-2">شهادة</h1>
-          <p class="text-xl font-bold text-emerald-800">اختبار اللغة العربية لغير الناطقين بها</p>
-          <p class="text-base text-slate-600 mt-1">تشهد هذه الدورة أن :</p>
+        <div class="text-center my-3">
+          <h1 class="text-5xl font-bold text-emerald-950 font-serif leading-none mb-2">شهادة كفاءة</h1>
+          <p class="text-xl font-bold text-emerald-800">في اللغة العربية لغير الناطقين بها (TOAFL)</p>
+          <p class="text-base text-slate-600 mt-2">تشهد إدارة البرنامج بأن :</p>
         </div>
 
         <!-- BODY GRID -->
-        <div class="grid grid-cols-12 gap-6 items-center my-6 px-4">
+        <div class="grid grid-cols-12 gap-6 items-center my-4 px-4">
           
           <div class="col-span-7 text-right">
-            <div class="border-b-2 border-slate-800 pb-2 mb-4">
-              <span class="text-sm text-slate-400 block mb-1">الاسم الكامل / Nama Lengkap:</span>
-              <h2 id="dispName" class="text-4xl font-extrabold text-slate-900 font-serif">—</h2>
+            <div class="border-b-2 border-emerald-800 pb-2 mb-4">
+              <span class="text-sm text-slate-500 block mb-1">الاسم الكامل :</span>
+              <h2 id="dispName" class="text-4xl font-extrabold text-emerald-950 font-serif">—</h2>
             </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              قد شارك في اختبار كفاءة اللغة العربية (TOAFL) الذي نظمه مركز Ta'allum Arabic وحصل على النتيجة المبينة.
+            <p class="text-base text-slate-700 leading-relaxed font-serif">
+              قد اجتاز بنجاح اختبار كفاءة اللغة العربية (TOAFL) الذي نظمه مركز <span class="font-bold text-emerald-900">Ta'allum Arabic</span> وحصل على الدرجات والتقدير المبينين في الجدول.
             </p>
           </div>
 
-          <div class="col-span-5 bg-emerald-50/60 p-5 rounded-2xl border border-emerald-200 text-right">
-            <div class="flex justify-between items-center border-b border-emerald-200 pb-2 mb-3">
-              <span class="text-sm font-bold text-slate-700">حصل/حصلت على تقدير :</span>
+          <div class="col-span-5 bg-emerald-50/70 p-5 rounded-2xl border border-emerald-300 text-right shadow-sm">
+            <div class="flex justify-between items-center border-b border-emerald-300 pb-2 mb-3">
+              <span class="text-base font-bold text-slate-800">الدرجة الكلية :</span>
               <span id="dispScore" class="text-3xl font-extrabold text-emerald-900 font-serif">(0)</span>
             </div>
-            <div id="dispPredikat" class="text-emerald-800 font-bold text-lg text-center mb-3 bg-emerald-100/60 py-1 rounded-lg">
-              —
+            
+            <!-- PREDIKAT & SYMBOL -->
+            <div class="flex justify-between items-center mb-3 bg-emerald-100/70 p-2.5 rounded-xl border border-emerald-300">
+              <span class="text-slate-700 font-bold text-sm">التقدير والرمز :</span>
+              <div class="flex items-center gap-2">
+                <span id="dispPredikatText" class="text-emerald-900 font-bold text-lg font-serif">—</span>
+                <span id="dispPredikatSymbol" class="bg-emerald-800 text-amber-300 font-bold px-3 py-0.5 rounded-lg text-base">A</span>
+              </div>
             </div>
-            <div class="space-y-1.5 text-sm text-slate-700">
-              <div class="flex justify-between"><span>المسموع (Listening) :</span><b id="dispIs" class="font-serif text-base text-emerald-900">0</b></div>
-              <div class="flex justify-between"><span>التراكيب والتعبيرات (Structure) :</span><b id="dispTa" class="font-serif text-base text-emerald-900">0</b></div>
-              <div class="flex justify-between"><span>المقروء (Reading) :</span><b id="dispQi" class="font-serif text-base text-emerald-900">0</b></div>
+
+            <div class="space-y-2 text-sm text-slate-800 font-medium">
+              <div class="flex justify-between items-center border-b border-slate-200/60 pb-1"><span>فهم المسموع :</span><b id="dispIs" class="font-serif text-lg text-emerald-900">0</b></div>
+              <div class="flex justify-between items-center border-b border-slate-200/60 pb-1"><span>فهم التراكيب والتعبيرات :</span><b id="dispTa" class="font-serif text-lg text-emerald-900">0</b></div>
+              <div class="flex justify-between items-center pb-1"><span>فهم المقروء :</span><b id="dispQi" class="font-serif text-lg text-emerald-900">0</b></div>
             </div>
           </div>
 
         </div>
 
         <!-- FOOTER -->
-        <div class="absolute bottom-10 left-12 right-12 flex justify-between items-end text-xs text-slate-600 border-t border-slate-200 pt-4">
-          <div class="text-right">
-            <p>رقم الشهادة / No : <b id="dispId" class="font-mono text-emerald-900">TA-000000</b></p>
-            <p class="mt-1">تاريخ الإصدار / Tanggal Terbit : <b id="dispDate">14 أغسطس 2026</b></p>
+        <div class="absolute bottom-8 left-12 right-12 flex justify-between items-end text-xs text-slate-700 border-t border-slate-200 pt-3">
+          <div class="text-right space-y-1">
+            <p>رقم الشهادة : <b id="dispId" class="font-mono text-emerald-900 text-sm">TA-000000</b></p>
+            <p>تاريخ الإصدار : <b id="dispDate">١٤ أغسطس ٢٠٢٦</b></p>
           </div>
-          <div class="text-left">
-            <p>Masa Berlaku : <b>2 Tahun sejak tanggal terbit</b></p>
-            <p class="mt-1 text-slate-400">Ta'allum Academic System Validated</p>
+          <div class="text-left space-y-1">
+            <p>مدة الصلاحية : <b>سنتان من تاريخ الإصدار</b></p>
+            <p class="text-slate-400">نظام الاعتماد الأكاديمي — Ta'allum Arabic</p>
           </div>
         </div>
 
@@ -101,16 +111,18 @@
     </div>
 
     <button id="dlBtn" onclick="downloadPDF()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 px-10 rounded-xl shadow-lg transition max-w-md w-full">
-      تحميل الشهادة بصيغة (Download A4 PDF)
+      تحميل الشهادة (PDF)
     </button>
   </div>
 
 <script>
 function getPredikat(scaled) {
-  if (scaled >= 600) return "ممتاز (Excellent)";
-  if (scaled >= 520) return "جيد جداً (Very Good)";
-  if (scaled >= 450) return "جيد (Good)";
-  return "مقبول (Fair)";
+  if (scaled >= 601) return { symbol: "A", text: "امتياز" };
+  if (scaled >= 501) return { symbol: "B+", text: "جيد جداً" };
+  if (scaled >= 451) return { symbol: "B", text: "جيد" };
+  if (scaled >= 401) return { symbol: "B-", text: "مقبول" };
+  if (scaled >= 301) return { symbol: "C", text: "ضعيف" };
+  return { symbol: "D", text: "ضعيف جداً" };
 }
 
 let isPaidStatus = false;
@@ -146,16 +158,19 @@ async function init() {
     } catch(e) {}
   }
 
+  const pInfo = getPredikat(score);
+
   document.getElementById('dispName').textContent = name;
   document.getElementById('dispScore').textContent = `(${score})`;
-  document.getElementById('dispPredikat').textContent = getPredikat(score);
+  document.getElementById('dispPredikatText').textContent = pInfo.text;
+  document.getElementById('dispPredikatSymbol').textContent = pInfo.symbol;
   document.getElementById('dispIs').textContent = is;
   document.getElementById('dispTa').textContent = ta;
   document.getElementById('dispQi').textContent = qi;
   document.getElementById('dispId').textContent = certId || ('TA-' + Math.floor(100000 + Math.random() * 900000));
 
   new QRCode(document.getElementById('certQr'), {
-    text: `Ta'allum TOAFL | No: ${certId} | Nama: ${name}`,
+    text: `Ta'allum TOAFL | Cert: ${certId} | Name: ${name}`,
     width: 68,
     height: 68,
     colorDark: "#047857",
