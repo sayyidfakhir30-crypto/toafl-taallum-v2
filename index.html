@@ -86,24 +86,34 @@ function buildSteps(){
 }
 
 const STEPS = buildSteps();
-const TOTAL_Q = 100;
 
 let screen = 'landing';
 let participantName = '';
 let stepIndex = 0;
 let answers = {};
 
+function convertSubScore(correct, max) {
+  if (max === 0) return 31;
+  return 31 + Math.round((correct / max) * 37);
+}
+
 function computeScore() {
-  let correct = 0;
   let secCorrect = {istima: 0, tarakib: 0, qiroaah: 0};
+  let secMax = {istima: 30, tarakib: 20, qiroaah: 50};
+
   STEPS.forEach(st => st.questions.forEach(q => {
     if(answers[q.id] === q.a) {
-      correct++;
       secCorrect[q.section]++;
     }
   }));
-  const scaled = Math.round(200 + (correct / TOTAL_Q) * 477);
-  return { correct, scaled, secCorrect };
+
+  const subIs = convertSubScore(secCorrect.istima, secMax.istima);
+  const subTa = convertSubScore(secCorrect.tarakib, secMax.tarakib);
+  const subQi = convertSubScore(secCorrect.qiroaah, secMax.qiroaah);
+
+  const scaled = Math.round(((subIs + subTa + subQi) / 3) * 10);
+
+  return { scaled, subIs, subTa, subQi };
 }
 
 function render(shouldScroll = true) {
@@ -135,7 +145,6 @@ function render(shouldScroll = true) {
           <li>يمكنك الاطلاع على النتيجة فور الانتهاء من جميع الأسئلة مجانًا.</li>
         </ul>
 
-        <!-- DISCLAIMER SEBELUM KERJA SOAL -->
         <div class="bg-amber-50 border border-amber-200 text-amber-900 text-xs p-3.5 rounded-xl mb-6 leading-relaxed font-sans" dir="ltr">
           <b>Catatan:</b> Sertifikat ini diterbitkan secara independen oleh <b>Ta'allum Arabic</b> sebagai bukti kualifikasi kemampuan bahasa Arab dan berkas pendukung.
         </div>
@@ -221,7 +230,6 @@ function render(shouldScroll = true) {
         <h3 class="text-xl font-bold text-emerald-900 mb-2">إصدار وتنزيل الشهادة الرسمية</h3>
         <p class="text-slate-600 text-sm mb-4">قم بإتمام عملية التسديد لاستخراج شهادتك.</p>
         
-        <!-- DISCLAIMER SEBELUM BAYAR -->
         <div class="bg-amber-50 border border-amber-200 text-amber-900 text-xs p-3.5 rounded-xl mb-4 leading-relaxed font-sans text-right" dir="ltr">
           <b>Catatan:</b> Sertifikat ini diterbitkan secara independen oleh <b>Ta'allum Arabic</b> sebagai bukti kualifikasi kemampuan bahasa Arab dan berkas pendukung.
         </div>
@@ -272,7 +280,7 @@ function processPayment() {
   const certId = 'TA-' + Math.floor(100000 + Math.random() * 900000);
   
   alert('تم الدفع بنجاح! (Simulasi Pembayaran Berhasil — Sandbox Test)');
-  window.location.href = `/sertifikat.html?cert=${certId}&name=${encodeURIComponent(participantName)}&score=${res.scaled}&is=${res.secCorrect.istima}&ta=${res.secCorrect.tarakib}&qi=${res.secCorrect.qiroaah}&paid=true`;
+  window.location.href = `/sertifikat.html?cert=${certId}&name=${encodeURIComponent(participantName)}&score=${res.scaled}&is=${res.subIs}&ta=${res.subTa}&qi=${res.subQi}&paid=true`;
 }
 
 render(true);
