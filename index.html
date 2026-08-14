@@ -25,7 +25,7 @@ const ISTIMA = [
   {title:"الجدول الدراسي", audio: "/audio/3.mp3", q:[{q:"متى درس النحو؟", o:["الثامنة صباحًا","العاشرة","الظهر","المساء"], a:0},{q:"إلى أين يذهب بعد الظهر؟", o:["المسجد","المكتبة","البيت","السوق"], a:1},{q:"ما الدرس الثاني؟", o:["النحو","الأدب","الفقه","التاريخ"], a:1}]},
   {title:"الطقس اليوم", audio: "/audio/4.mp3", q:[{q:"كيف الجو اليوم؟", o:["حار","بارد وممطر","معتدل","عاصف"], a:1},{q:"ماذا أخذ المتحدث؟", o:["معطفًا","مظلة","قبعة","حقيبة"], a:1},{q:"متى أخذ المظلة؟", o:["بعد الخروج","قبل الخروج","في المساء","لم يأخذها"], a:1}]},
   {title:"حوار في المكتبة", audio: "/audio/5.mp3", q:[{q:"ما مدة الاستعارة؟", o:["أسبوع","أسبوعين","شهر","ثلاثة أيام"], a:1},{q:"ماذا يحدث إذا تأخر الطالب في الإعادة؟", o:["يُطرد","يدفع غرامة","يُمنع من الدخول","لا شيء"], a:1},{q:"من يتحدث مع الطالب؟", o:["المعلم","أمين المكتبة","المدير","الحارس"], a:1}]},
-  {title:"التخطيط للسفر", audio: "/audio/6.mp3", q:[{q:"إلى أين ستسافر الزميلة؟", o:["مكة","المدينة المنورة","الرياض","جدة"], a:1},{q:"ماذا تحتاج قبل السفر؟", o:["تأشيرة فقط","شهادة لغة عربية","تذكرة طيران","جواز سفر جديد"], a:1},{q:"لماذا تسافر؟", o:["للعمل","للسياحة","للدراسة","للعلاج"], a:2}]},
+  {title:"التخطيط للسفر", audio: "/audio/6.mp3", q:[{q:"إلى أين ستسافر الزميلة؟", o:["مكة","المدينة المنورة","الرياض","جدة"], a:1},{q:"ماذا تحتاج قبل السفر؟", o:["تأشيرة فقط","شهادة لغة عربية","تذكرة طيران","جواز سفر جديد"], a:1},{q:"لماذا تسافر؟", o:["للعمل","للسياحة","لالدراسة","للعلاج"], a:2}]},
   {title:"مشكلة في الجامعة", audio: "/audio/7.mp3", q:[{q:"لماذا تأخر المتحدث؟", o:["نام كثيرًا","تأخر القطار","نسي الكتاب","كان مريضًا"], a:1},{q:"كم تأخر عن المحاضرة؟", o:["ربع ساعة","نصف ساعة","ساعة","ساعتين"], a:1},{q:"من ساعده على فهم الدرس؟", o:["الأستاذ","زميله","أخوه","لا أحد"], a:1}]},
   {title:"مناقشة أكاديمية", audio: "/audio/8.mp3", q:[{q:"ما رأي الفريق الأول؟", o:["التركيز على المحادثة","التركيز على القواعد أولاً","عدم الحاجة للقواعد","تعلم لغة أخرى"], a:1},{q:"ماذا أثبتت الدراسات الحديثة؟", o:["القواعد وحدها أفضل","المحادثة وحدها أفضل","الجمع بين الطريقتين أفضل","لا فرق بين الطرق"], a:2},{q:"ما موضوع النص؟", o:["تاريخ اللغة العربية","طرق تعلم اللغة العربية","أنواع اللهجات","قواعد النحو"], a:1}]},
   {title:"تقرير إخباري", audio: "/audio/9.mp3", q:[{q:"ماذا أعلنت الجامعة؟", o:["إغلاق برنامج","افتتاح برنامج جديد","تغيير المناهج","إلغاء المنح"], a:1},{q:"من المستهدف بالبرنامج؟", o:["الطلاب الناطقون بالعربية","الطلاب الأجانب","أساتذة الجامعة","الموظفون"], a:1},{q:"كم تستغرق مدة البرنامج؟", o:["ستة أشهر","عام واحد","عامين","ثلاثة أعوام"], a:1}]},
@@ -135,9 +135,9 @@ function render(shouldScroll = true) {
           <li>يمكنك الاطلاع على النتيجة فور الانتهاء من جميع الأسئلة مجانًا.</li>
         </ul>
 
-        <!-- DISCLAIMER TRANSPARANSI BAHASA INDONESIA -->
+        <!-- DISCLAIMER SEBELUM KERJA SOAL -->
         <div class="bg-amber-50 border border-amber-200 text-amber-900 text-xs p-3.5 rounded-xl mb-6 leading-relaxed font-sans" dir="ltr">
-          <b>Catatan:</b> Sertifikat ini diterbitkan secara independen oleh <b>Ta'allum Arabic</b> sebagai bukti kualifikasi kemampuan bahasa Arab dan berkas pendukung portofolio mandiri.
+          <b>Catatan:</b> Sertifikat ini diterbitkan secara independen oleh <b>Ta'allum Arabic</b> sebagai bukti kualifikasi kemampuan bahasa Arab dan berkas pendukung.
         </div>
 
         <label class="block text-xs font-bold text-slate-600 uppercase mb-2">اسم المشارك (كما سيظهر في الشهادة)</label>
@@ -220,6 +220,12 @@ function render(shouldScroll = true) {
       <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 text-center mb-8">
         <h3 class="text-xl font-bold text-emerald-900 mb-2">إصدار وتنزيل الشهادة الرسمية</h3>
         <p class="text-slate-600 text-sm mb-4">قم بإتمام عملية التسديد لاستخراج شهادتك.</p>
+        
+        <!-- DISCLAIMER SEBELUM BAYAR -->
+        <div class="bg-amber-50 border border-amber-200 text-amber-900 text-xs p-3.5 rounded-xl mb-4 leading-relaxed font-sans text-right" dir="ltr">
+          <b>Catatan:</b> Sertifikat ini diterbitkan secara independen oleh <b>Ta'allum Arabic</b> sebagai bukti kualifikasi kemampuan bahasa Arab dan berkas pendukung.
+        </div>
+
         <button id="payBtn" onclick="processPayment()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3.5 px-6 rounded-xl shadow transition mb-2">
           دفع واستخراج الشهادة (Rp 50.000)
         </button>
