@@ -124,8 +124,12 @@ async function init() {
   let is = params.get('is') || '0';
   let ta = params.get('ta') || '0';
   let qi = params.get('qi') || '0';
+  
+  if (params.get('paid') === 'true') {
+    isPaidStatus = true;
+  }
 
-  if (certId) {
+  if (certId && !isPaidStatus) {
     try {
       const res = await fetch(`/api/check-status?certId=${certId}`);
       const data = await res.json();
