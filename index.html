@@ -116,6 +116,28 @@ function computeScore() {
   return { scaled, subIs, subTa, subQi };
 }
 
+function selectOpt(id, oi) {
+  answers[id] = oi;
+  render(false);
+}
+
+function prevStep() {
+  if (stepIndex > 0) {
+    stepIndex--;
+    render(true);
+  }
+}
+
+function nextStep() {
+  if (stepIndex < STEPS.length - 1) {
+    stepIndex++;
+    render(true);
+  } else {
+    const res = computeScore();
+    window.location.href = `hasil.html?name=${encodeURIComponent(participantName)}&total=${res.scaled}&is=${res.subIs}&ta=${res.subTa}&qi=${res.subQi}`;
+  }
+}
+
 function render(shouldScroll = true) {
   const app = document.getElementById('app');
   app.innerHTML = '';
@@ -215,72 +237,6 @@ function render(shouldScroll = true) {
       </div>
     `;
   }
-
-  else if (screen === 'result') {
-    const res = computeScore();
-    
-    app.innerHTML = `
-      <div class="bg-emerald-900 text-white rounded-2xl p-8 text-center shadow-lg mb-6">
-        <p class="text-amber-300 text-xs uppercase tracking-widest font-bold mb-1">النتيجة النهائية</p>
-        <h2 class="text-2xl font-bold mb-2">${participantName}</h2>
-        <div class="text-6xl font-bold font-serif text-amber-200 my-2">${res.scaled}</div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 text-center mb-8">
-        <h3 class="text-xl font-bold text-emerald-900 mb-2">إصدار وتنزيل الشهادة الرسمية</h3>
-        <p class="text-slate-600 text-sm mb-4">قم بإتمام عملية التسديد لاستخراج شهادتك.</p>
-        
-        <div class="bg-amber-50 border border-amber-200 text-amber-900 text-xs p-3.5 rounded-xl mb-4 leading-relaxed font-sans text-right" dir="ltr">
-          <b>Catatan:</b> Sertifikat ini diterbitkan secara independen oleh <b>Ta'allum Arabic</b> sebagai bukti kualifikasi kemampuan bahasa Arab dan berkas pendukung.
-        </div>
-
-        <button id="payBtn" onclick="processPayment()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3.5 px-6 rounded-xl shadow transition mb-2">
-          دفع واستخراج الشهادة (Rp 50.000)
-        </button>
-      </div>
-    `;
-  }
-}
-
-function selectOpt(qid, oi) { 
-  answers[qid] = oi; 
-  
-  const container = document.getElementById(`q-box-${qid}`);
-  if (container) {
-    const btns = container.querySelectorAll('.opt-btn');
-    btns.forEach((btn, idx) => {
-      if (idx === oi) {
-        btn.classList.add('selected');
-      } else {
-        btn.classList.remove('selected');
-      }
-    });
-  }
-}
-
-function nextStep() {
-  if (stepIndex < STEPS.length - 1) {
-    stepIndex++;
-    render(true);
-  } else {
-    screen = 'result';
-    render(true);
-  }
-}
-
-function prevStep() { 
-  if (stepIndex > 0) { 
-    stepIndex--; 
-    render(true); 
-  } 
-}
-
-function processPayment() {
-  const res = computeScore();
-  const certId = 'TA-' + Math.floor(100000 + Math.random() * 900000);
-  
-  alert('تم الدفع بنجاح! (Simulasi Pembayaran Berhasil — Sandbox Test)');
-  window.location.href = `/sertifikat.html?cert=${certId}&name=${encodeURIComponent(participantName)}&score=${res.scaled}&is=${res.subIs}&ta=${res.subTa}&qi=${res.subQi}&paid=true`;
 }
 
 render(true);
