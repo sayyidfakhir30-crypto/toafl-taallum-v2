@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasil Ujian TOAFL</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4 font-sans">
+
+  <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-6 text-center border border-slate-200">
+    <div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-2xl">
+      ✓
+    </div>
+    
+    <h1 class="text-2xl font-bold text-slate-800 mb-1">Ujian Selesai!</h1>
+    <p class="text-xs text-slate-500 mb-6">Berikut adalah hasil penilaian ujian TOAFL Anda</p>
+
+    <!-- KOTAK SKOR -->
+    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6">
+      <p class="text-xs font-semibold text-emerald-800 uppercase tracking-wide">Skor Total</p>
+      <p id="totalScore" class="text-4xl font-extrabold text-emerald-950 my-1">310</p>
+      
+      <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-emerald-200/60 text-xs">
+        <div class="bg-white p-2 rounded-lg shadow-sm border border-emerald-100">
+          <p class="text-slate-500">Listening</p>
+          <p id="scoreIs" class="font-bold text-emerald-900 text-sm">31</p>
+        </div>
+        <div class="bg-white p-2 rounded-lg shadow-sm border border-emerald-100">
+          <p class="text-slate-500">Structure</p>
+          <p id="scoreTa" class="font-bold text-emerald-900 text-sm">31</p>
+        </div>
+        <div class="bg-white p-2 rounded-lg shadow-sm border border-emerald-100">
+          <p class="text-slate-500">Reading</p>
+          <p id="scoreQi" class="font-bold text-emerald-900 text-sm">31</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PEMBERITAHUAN & TOMBOL WA -->
+    <div class="space-y-3">
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Ingin menerbitkan sertifikat resmi ber-QR Code dan bertanda tangan digital? Silakan hubungi Admin untuk proses pembayaran & penerbitan.
+      </p>
+
+      <a id="waBtn" href="https://wa.me/6287898154180?text=Halo%20Admin,%20saya%20sudah%20selesai%20ujian%20TOAFL%20dan%20ingin%20menerbitkan%20sertifikat." 
+         target="_blank" 
+         class="block w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition duration-200">
+        Hubungi Admin via WhatsApp
+      </a>
+    </div>
+  </div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('total')) document.getElementById('totalScore').textContent = params.get('total');
+  if(params.get('is')) document.getElementById('scoreIs').textContent = params.get('is');
+  if(params.get('ta')) document.getElementById('scoreTa').textContent = params.get('ta');
+  if(params.get('qi')) document.getElementById('scoreQi').textContent = params.get('qi');
+</script>
+</body>
+</html>
