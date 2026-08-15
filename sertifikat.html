@@ -81,26 +81,48 @@
               <span id="dispScore" class="text-2xl font-extrabold text-emerald-900 font-serif">(0)</span>
             </div>
             
-            <div class="flex justify-between items-center mb-2.5 bg-emerald-100/70 p-1.5 rounded-lg border border-emerald-300">
+            <div class="flex justify-between items-center mb-2.5 bg-emerald-100/70 p-2 rounded-lg border border-emerald-300">
               <span class="text-slate-700 font-bold text-[11px]">التقدير والرمز :</span>
               <div class="flex items-center gap-2">
                 <span id="dispPredikatText" class="text-emerald-900 font-bold text-xs font-serif">—</span>
-                <span id="dispPredikatSymbol" dir="ltr" class="bg-emerald-800 text-amber-300 font-bold px-3 py-1 rounded text-xs font-sans inline-flex items-center justify-center leading-none">A</span>
+                <!-- PERBAIKAN TOTAL BOX PREDIKAT HURUF (C/B/A) -->
+                <span id="dispPredikatSymbol" dir="ltr" style="display: inline-block; min-width: 36px; height: 26px; line-height: 26px; text-align: center; background-color: #065f46; color: #fde047; font-weight: 800; border-radius: 4px; font-size: 13px; font-family: sans-serif;">A</span>
               </div>
             </div>
 
-            <div class="space-y-1 text-xs text-slate-800">
+            <!-- TATA LETAK SEIMBANG ARAB & INGGRIS -->
+            <div class="space-y-1.5 text-xs text-slate-800">
               <div class="flex justify-between items-center border-b border-slate-200/60 pb-1">
-                <span>فهم المسموع <span class="text-slate-500 font-sans text-[10px]" dir="ltr">(Listening)</span> :</span>
-                <b id="dispIs" class="font-serif text-sm text-emerald-900 font-bold">0</b>
+                <div class="flex items-center gap-1.5">
+                  <span class="font-bold text-slate-800">فهم المسموع</span>
+                  <span class="text-slate-500 font-sans text-[11px]" dir="ltr">(Listening)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-slate-400 font-bold">:</span>
+                  <b id="dispIs" class="font-serif text-sm text-emerald-900 font-bold min-w-[20px] text-left">0</b>
+                </div>
               </div>
+
               <div class="flex justify-between items-center border-b border-slate-200/60 pb-1">
-                <span>فهم التراكيب والتعبيرات <span class="text-slate-500 font-sans text-[10px]" dir="ltr">(Structure)</span> :</span>
-                <b id="dispTa" class="font-serif text-sm text-emerald-900 font-bold">0</b>
+                <div class="flex items-center gap-1.5">
+                  <span class="font-bold text-slate-800">فهم التراكيب والتعبيرات</span>
+                  <span class="text-slate-500 font-sans text-[11px]" dir="ltr">(Structure)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-slate-400 font-bold">:</span>
+                  <b id="dispTa" class="font-serif text-sm text-emerald-900 font-bold min-w-[20px] text-left">0</b>
+                </div>
               </div>
+
               <div class="flex justify-between items-center">
-                <span>فهم المقروء <span class="text-slate-500 font-sans text-[10px]" dir="ltr">(Reading)</span> :</span>
-                <b id="dispQi" class="font-serif text-sm text-emerald-900 font-bold">0</b>
+                <div class="flex items-center gap-1.5">
+                  <span class="font-bold text-slate-800">فهم المقروء</span>
+                  <span class="text-slate-500 font-sans text-[11px]" dir="ltr">(Reading)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-slate-400 font-bold">:</span>
+                  <b id="dispQi" class="font-serif text-sm text-emerald-900 font-bold min-w-[20px] text-left">0</b>
+                </div>
               </div>
             </div>
           </div>
