@@ -101,21 +101,21 @@
 
   <!-- PRATINJAU TEMPLATE SERTIFIKAT -->
   <div class="w-full lg:w-2/3 overflow-auto border p-4 bg-slate-300 rounded-xl flex justify-center cert-outer-wrapper">
-    <div id="certificate" dir="rtl" class="bg-white text-slate-900 relative overflow-hidden flex flex-col justify-between cert-arabic shadow-xl" style="width: 1122px; height: 793px; padding: 25px 45px 25px 45px; border: 14px solid #047857; min-width: 1122px;">
+    <div id="certificate" dir="rtl" class="bg-white text-slate-900 relative overflow-hidden flex flex-col justify-between cert-arabic shadow-xl" style="width: 1122px; height: 793px; padding: 20px 45px 20px 45px; border: 14px solid #047857; min-width: 1122px;">
       
       <!-- WATERMARK LOGO -->
       <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.03]">
-        <img src="logo.png" alt="Watermark" class="w-[480px] h-[480px] object-contain" onerror="this.style.display='none';"/>
+        <img src="logo.png" alt="Watermark" class="w-[450px] h-[450px] object-contain" onerror="this.style.display='none';"/>
       </div>
 
-      <!-- GARIS EMAS BORDER INNER -->
-      <div class="absolute inset-3 border border-amber-500/50 pointer-events-none z-10"></div>
+      <!-- GARIS EMAS BORDER INNER (DIBERI JARAK LEBIH AMAN) -->
+      <div class="absolute inset-2 border border-amber-500/50 pointer-events-none z-10"></div>
 
-      <div class="relative z-10 flex flex-col justify-between h-full">
+      <div class="relative z-10 flex flex-col justify-between h-full py-1">
         
         <!-- HEADER ATAS -->
-        <div class="text-center mb-1 border-b-2 border-emerald-800/30 pb-2">
-          <img src="logo.png" alt="Logo Ta'allum" class="w-16 h-16 object-contain mx-auto mb-1" onerror="this.style.display='none';" />
+        <div class="text-center border-b-2 border-emerald-800/30 pb-2">
+          <img src="logo.png" alt="Logo Ta'allum" class="w-14 h-14 object-contain mx-auto mb-1" onerror="this.style.display='none';" />
           <h1 class="text-2xl font-extrabold text-emerald-900 cert-latin leading-tight tracking-wide">TA'ALLUM ARABIC</h1>
           <h2 class="text-xs font-bold text-emerald-800 cert-latin mt-0.5 tracking-wider" dir="ltr">TEST OF ARABIC AS A FOREIGN LANGUAGE (TOAFL)</h2>
         </div>
@@ -129,29 +129,29 @@
         <!-- NAMA PESERTA & NARASI -->
         <div class="text-center my-1 px-4">
           <p class="text-xs text-slate-600 mb-0.5 cert-arabic">تشهد إدارة البرنامج بأن :</p>
-          <h2 id="outName" class="text-2xl font-extrabold text-emerald-900 border-b-2 border-emerald-800/30 inline-block px-10 pb-1 mb-2 cert-arabic" style="line-height: 1.3;">-</h2>
+          <h2 id="outName" class="text-2xl font-extrabold text-emerald-900 border-b-2 border-emerald-800/30 inline-block px-10 pb-1 mb-1.5 cert-arabic" style="line-height: 1.3;">-</h2>
           <p class="text-xs text-slate-700 max-w-4xl mx-auto text-center cert-arabic leading-relaxed">
             قد أتم بنجاح اختبار كفاءة اللغة العربية <span dir="ltr" class="font-bold text-emerald-900 cert-latin inline-block mx-1">(TOAFL)</span> المعتمد عبر مركز <span dir="ltr" class="font-bold text-emerald-900 cert-latin inline-block mx-1">Ta'allum Arabic</span> وفق معايير التقويم الأكاديمي المحددة، وحصل على الدرجات والتقدير المستحقين أداءه، وبناء عليه حررت له هذه الشهادة إثباتا لمستواه اللغوي.
           </p>
         </div>
 
         <!-- KOTAK SKOR & QR CODE -->
-        <div class="my-2 px-2 flex gap-5 items-stretch justify-center">
-          <div class="bg-emerald-50/70 p-3.5 rounded-xl border-2 border-emerald-200 text-right shadow-sm flex flex-col justify-between" style="width: 640px;">
-            <div class="flex justify-between items-center border-b border-emerald-300 pb-1.5 mb-1.5">
+        <div class="my-1 px-2 flex gap-5 items-stretch justify-center">
+          <div class="bg-emerald-50/70 p-3 rounded-xl border-2 border-emerald-200 text-right shadow-sm flex flex-col justify-between" style="width: 620px;">
+            <div class="flex justify-between items-center border-b border-emerald-300 pb-1 mb-1">
               <span class="text-xs font-bold text-slate-800 cert-arabic">الدرجة الكلية :</span>
               <span id="outScore" class="text-xl font-extrabold text-emerald-900 cert-latin">(0)</span>
             </div>
             
-            <div class="flex justify-between items-center mb-1.5 bg-emerald-100/80 p-1.5 rounded-lg border border-emerald-300">
+            <div class="flex justify-between items-center mb-1 bg-emerald-100/80 p-1 rounded-lg border border-emerald-300">
               <span class="text-slate-800 font-bold text-xs cert-arabic">التقدير والرمز :</span>
               <div class="flex items-center gap-2">
                 <span id="outPredText" class="text-emerald-950 font-bold text-xs cert-arabic">-</span>
-                <span id="outPredSym" dir="ltr" class="bg-emerald-800 text-amber-300 font-bold px-3 py-0.5 rounded text-xs cert-latin inline-flex items-center justify-center min-w-[34px] h-[24px]">A</span>
+                <span id="outPredSym" dir="ltr" class="bg-emerald-800 text-amber-300 font-bold px-3 py-0.5 rounded text-xs cert-latin inline-flex items-center justify-center min-w-[34px] h-[22px]">A</span>
               </div>
             </div>
 
-            <div class="space-y-1 text-xs text-slate-800">
+            <div class="space-y-0.5 text-xs text-slate-800">
               <div class="flex justify-between items-center border-b border-slate-200/60 pb-0.5">
                 <span class="cert-arabic">فهم المسموع <span class="text-slate-500 text-[10px] cert-latin" dir="ltr">(Listening)</span> :</span>
                 <b id="outIs" class="text-xs text-emerald-900 font-bold cert-latin">0</b>
@@ -167,15 +167,15 @@
             </div>
           </div>
 
-          <div class="flex flex-col items-center justify-center p-2.5 border-2 border-slate-300 rounded-xl bg-white shadow-sm" style="width: 210px;">
-            <div id="certQr" class="bg-white p-1 border border-slate-200 rounded mb-1 flex items-center justify-center min-h-[80px] w-[80px] h-[80px]"></div>
-            <p class="text-xs font-bold text-emerald-900 cert-arabic text-center">رمز التحقق الرقمي</p>
+          <div class="flex flex-col items-center justify-center p-2 border-2 border-slate-300 rounded-xl bg-white shadow-sm" style="width: 200px;">
+            <div id="certQr" class="bg-white p-1 border border-slate-200 rounded mb-1 flex items-center justify-center min-h-[75px] w-[75px] h-[75px]"></div>
+            <p class="text-[11px] font-bold text-emerald-900 cert-arabic text-center">رمز التحقق الرقمي</p>
             <p class="text-[8px] text-slate-400 cert-latin text-center" dir="ltr">Digital Verification QR</p>
           </div>
         </div>
 
-        <!-- FOOTER (DIKUNCI PRESISI DI DALAM GARIS EMAS) -->
-        <div class="flex justify-between items-end border-t-2 border-slate-200 pt-2 px-2 mt-auto">
+        <!-- FOOTER (TERKUNCI AMAN DI DALAM BORDER) -->
+        <div class="flex justify-between items-end border-t-2 border-slate-200 pt-2 px-2 mt-1">
           <div class="text-right space-y-0.5 text-xs text-slate-700 cert-arabic">
             <p>رقم الشهادة : <b id="outId" class="text-emerald-900 cert-latin font-bold">TA-000000</b></p>
             <p>تاريخ الإصدار : <b id="outDate">١٥ أغسطس ٢٠٢٦</b></p>
@@ -183,7 +183,7 @@
           </div>
 
           <div class="text-center space-y-0.5">
-            <p class="text-xs text-slate-500 uppercase font-bold cert-arabic">اعتماد الشهادة</p>
+            <p class="text-[10px] text-slate-500 uppercase font-bold cert-arabic">اعتماد الشهادة</p>
             <p class="text-xs font-bold text-emerald-900 cert-arabic">إدارة برنامج Ta'allum Arabic</p>
             <p class="text-[8px] text-slate-400 cert-latin" dir="ltr">Certified Digital Assessment System</p>
           </div>
@@ -229,7 +229,7 @@ function updateCert() {
   
   new QRCode(qrContainer, {
     text: `Ta'allum TOAFL | Cert: ${id} | Name: ${name}`,
-    width: 80, height: 80, colorDark: "#047857", colorLight: "#ffffff"
+    width: 75, height: 75, colorDark: "#047857", colorLight: "#ffffff"
   });
 }
 
