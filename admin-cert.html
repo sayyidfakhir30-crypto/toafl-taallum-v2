@@ -72,7 +72,7 @@
       </div>
       <div>
         <label class="block font-bold text-slate-700">Nomor Sertifikat</label>
-        <input type="text" id="inId" value="TA-731155" class="w-full border p-2 rounded" oninput="updateCert()">
+        <input type="text" id="inId" value="" class="w-full border p-2 rounded" oninput="updateCert()">
       </div>
       <div>
         <label class="block font-bold text-slate-700">Skor Total</label>
@@ -121,23 +121,22 @@
         </div>
 
         <!-- JUDUL SERTIFIKAT -->
-<div class="text-center my-5">
-  <h1 class="text-5xl font-extrabold text-emerald-950 mb-0.5 cert-arabic leading-tight">شهادة كفاءة</h1>
-  <p class="text-2xl font-bold text-amber-700 cert-arabic">في اللغة العربية لغير الناطقين بها</p>
-</div>
+        <div class="text-center my-5">
+          <h1 class="text-5xl font-extrabold text-emerald-950 mb-0.5 cert-arabic leading-tight">شهادة كفاءة</h1>
+          <p class="text-2xl font-bold text-amber-700 cert-arabic">في اللغة العربية لغير الناطقين بها</p>
+        </div>
 
-<!-- NAMA PESERTA & NARASI -->
-<div class="text-center my-3 px-4">
-  <p class="text-sm text-slate-600 mb-0.5 cert-arabic">تشهد إدارة البرنامج بأن :</p>
-  <h2 id="outName" class="text-3xl font-extrabold text-emerald-900 border-b-2 border-emerald-800/30 inline-block px-10 pb-1 mb-1 cert-arabic" style="line-height: 1.2;">-</h2>
-  <p class="text-sm text-slate-700 max-w-4xl mx-auto text-center cert-arabic leading-relaxed">
-    قد أتم بنجاح اختبار كفاءة اللغة العربية <span dir="ltr" class="font-bold text-emerald-900 cert-latin inline-block mx-1">(TOAFL)</span> المعتمد عبر مركز <span dir="ltr" class="font-bold text-emerald-900 cert-latin inline-block mx-1">Ta'allum Arabic</span> وفق معايير التقويم الأكاديمي المحددة، وحصل على الدرجات والتقدير المستحقين أداءه، وبناء عليه حررت له هذه الشهادة إثباتا لمستواه اللغوي.
-  </p>
-</div>
+        <!-- NAMA PESERTA & NARASI -->
+        <div class="text-center my-3 px-4">
+          <p class="text-sm text-slate-600 mb-0.5 cert-arabic">تشهد إدارة البرنامج بأن :</p>
+          <h2 id="outName" class="text-3xl font-extrabold text-emerald-900 border-b-2 border-emerald-800/30 inline-block px-10 pb-1 mb-1 cert-arabic" style="line-height: 1.2;">-</h2>
+          <p class="text-sm text-slate-700 max-w-4xl mx-auto text-center cert-arabic leading-relaxed">
+            قد أتم بنجاح اختبار كفاءة اللغة العربية <span dir="ltr" class="font-bold text-emerald-900 cert-latin inline-block mx-1">(TOAFL)</span> المعتمد عبر مركز <span dir="ltr" class="font-bold text-emerald-900 cert-latin inline-block mx-1">Ta'allum Arabic</span> وفق معايير التقويم الأكاديمي المحددة، وحصل على الدرجات والتقدير المستحقين أداءه، وبناء عليه حررت له هذه الشهادة إثباتا لمستواه اللغوي.
+          </p>
+        </div>
 
-<!-- KOTAK SKOR & QR CODE -->
-<div class="my-3 px-2 flex gap-5 items-stretch justify-center">
-
+        <!-- KOTAK SKOR & QR CODE -->
+        <div class="my-3 px-2 flex gap-5 items-stretch justify-center">
 
           <div class="bg-emerald-50/70 p-3.5 rounded-xl border-2 border-emerald-200 text-right shadow-sm flex flex-col justify-between" style="width: 640px;">
             <div class="flex justify-between items-center border-b border-emerald-300 pb-1.5 mb-1.5">
@@ -176,7 +175,7 @@
           </div>
         </div>
 
-        <!-- FOOTER (DIKUNCI PRESISI DI DALAM GARIS EMAS) -->
+        <!-- FOOTER -->
         <div class="flex justify-between items-end border-t-2 border-slate-200 pt-2 px-2 mt-auto">
           <div class="text-right space-y-0.5 text-xs text-slate-700 cert-arabic">
             <p>رقم الشهادة : <b id="outId" class="text-emerald-900 cert-latin font-bold">TA-000000</b></p>
@@ -237,13 +236,27 @@ function updateCert() {
 
 function downloadPDF() {
   const nameInput = document.getElementById('inName').value || 'Sertifikat';
-  // Mengatur nama file dokumen PDF sesuai nama peserta dan menghapus karakter spesial
   document.title = `Sertifikat_${nameInput.replace(/[^a-zA-Z0-9ا-ي ]/g, '').trim()}`;
   window.print();
 }
 
+// LOGIKA OTOMATIS: GENERATE ID UNIK + DUKUNGAN PARAMETER URL
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  
+  // Ambil ID dari URL atau buat ID acak unik jika tidak ada di URL
+  const certId = params.get('id') || ('TA-' + Math.floor(100000 + Math.random() * 900000));
+  document.getElementById('inId').value = certId;
 
-updateCert();
+  // Isi data lain secara otomatis jika ada parameter dari URL
+  if (params.get('name')) document.getElementById('inName').value = params.get('name');
+  if (params.get('total') || params.get('score')) document.getElementById('inScore').value = params.get('total') || params.get('score');
+  if (params.get('is')) document.getElementById('inIs').value = params.get('is');
+  if (params.get('ta')) document.getElementById('inTa').value = params.get('ta');
+  if (params.get('qi')) document.getElementById('inQi').value = params.get('qi');
+
+  updateCert();
+});
 </script>
 </body>
 </html>
