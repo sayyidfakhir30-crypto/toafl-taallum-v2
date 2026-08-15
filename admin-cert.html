@@ -16,16 +16,21 @@
   .cert-latin { font-family: 'Times New Roman', Times, serif !important; }
   * { box-sizing: border-box; }
 
-  /* GAYA CETAK PRESISI A4 (MENJAMIN TEKS ARAB & QR CODE MURNI DARI BROWSER) */
+  /* MENGUNCI OTOMATIS ORIENTASI LANSKAP A4 DI SEMUA BROWSER & HP */
+  @page {
+    size: 297mm 210mm !important;
+    size: landscape !important;
+    margin: 0 !important;
+  }
+
   @media print {
-    @page {
-      size: A4 landscape;
-      margin: 0;
-    }
-    body {
+    html, body {
+      width: 297mm !important;
+      height: 210mm !important;
       background: #ffffff !important;
       padding: 0 !important;
       margin: 0 !important;
+      overflow: hidden !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
@@ -36,15 +41,19 @@
       padding: 0 !important;
       border: none !important;
       background: transparent !important;
+      display: block !important;
     }
     #certificate {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
       width: 297mm !important;
       height: 210mm !important;
       border: 12px solid #047857 !important;
       box-shadow: none !important;
       margin: 0 !important;
-      page-break-after: avoid;
-      page-break-inside: avoid;
+      page-break-after: avoid !important;
+      page-break-inside: avoid !important;
     }
   }
 </style>
@@ -53,7 +62,7 @@
 
 <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
   
-  <!-- FORM INPUT ADMIN (OTOMATIS SEMBUNYI SAAT DICETAK) -->
+  <!-- FORM INPUT ADMIN -->
   <div class="w-full lg:w-1/3 bg-white p-6 rounded-xl shadow-md h-fit no-print">
     <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Input Data Sertifikat</h2>
     
@@ -88,7 +97,6 @@
       <button onclick="downloadPDF()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded mt-4 shadow">
         Cetak & Simpan PDF (A4)
       </button>
-      <p class="text-xs text-slate-500 mt-2 text-center">Saat jendela cetak terbuka, pilih Tujuan: <b>Simpan sebagai PDF (Save as PDF)</b>.</p>
     </div>
   </div>
 
@@ -96,16 +104,18 @@
   <div class="w-full lg:w-2/3 overflow-auto border p-4 bg-slate-300 rounded-xl flex justify-center cert-container-wrapper">
     <div id="certificate" dir="rtl" class="bg-white text-slate-900 relative overflow-hidden flex flex-col justify-between cert-arabic shadow-xl" style="width: 1122px; height: 793px; padding: 25px 50px 20px 50px; border: 12px solid #047857; min-width: 1122px;">
       
+      <!-- WATERMARK LOGO (OPACITY 3%) -->
       <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.03]">
-        <img src="/logo.png" alt="Watermark" class="w-[450px] h-[450px] object-contain" onerror="this.style.display='none';"/>
+        <img src="logo.png" alt="Watermark" class="w-[450px] h-[450px] object-contain" onerror="this.style.display='none';"/>
       </div>
 
       <div class="absolute inset-3 border border-amber-500/50 pointer-events-none z-10"></div>
 
       <div class="relative z-10 flex flex-col justify-between h-full">
         <div>
-          <!-- HEADER -->
+          <!-- HEADER ATAS + LOGO DI TENGAH -->
           <div class="text-center mb-2 border-b border-emerald-800/30 pb-2">
+            <img src="logo.png" alt="Logo Ta'allum" class="w-14 h-14 object-contain mx-auto mb-1" onerror="this.style.display='none';" />
             <h1 class="text-2xl font-extrabold text-emerald-900 cert-latin leading-tight">TA'ALLUM ARABIC</h1>
             <h2 class="text-xs font-bold text-emerald-800 cert-latin mt-0.5" dir="ltr">TEST OF ARABIC AS A FOREIGN LANGUAGE (TOAFL)</h2>
           </div>
