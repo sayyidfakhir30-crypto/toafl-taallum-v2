@@ -8,13 +8,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'Tajawal', sans-serif; background-color: #f1f5f9; }
+  body { 
+    font-family: 'Traditional Arabic', 'Amiri', serif; 
+    background-color: #f1f5f9; 
+  }
+  .font-latin { 
+    font-family: 'Times New Roman', Times, serif !important; 
+  }
+  .font-arabic { 
+    font-family: 'Traditional Arabic', 'Amiri', serif !important; 
+  }
   * { letter-spacing: normal !important; box-sizing: border-box; }
 </style>
 </head>
-<body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
+<body class="p-4 md:p-8 flex flex-col items-center min-h-screen font-arabic">
 
   <div id="loading" class="text-center py-20">
     <p class="text-xl font-bold text-emerald-900">جاري إعداد الشهادة...</p>
@@ -26,14 +35,14 @@
       <img id="certPreview" class="w-full h-auto rounded-lg shadow-2xl border border-slate-400" alt="Sertifikat" />
     </div>
 
-    <button id="dlBtn" onclick="downloadPDF()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-10 rounded-xl shadow-lg transition max-w-md w-full">
+    <button id="dlBtn" onclick="downloadPDF()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-10 rounded-xl shadow-lg transition max-w-md w-full font-arabic">
       تحميل الشهادة (PDF)
     </button>
   </div>
 
   <!-- TEMPLATE SERTIFIKAT (DIPROSES DI LATAR BELAKANG) -->
   <div style="position: absolute; left: -9999px; top: -9999px;">
-    <div id="certificate" dir="rtl" class="bg-white text-slate-900 relative overflow-hidden flex flex-col justify-between" style="width: 1122px; height: 793px; padding: 40px 55px; background: #ffffff; border: 12px solid #047857;">
+    <div id="certificate" dir="rtl" class="bg-white text-slate-900 relative overflow-hidden flex flex-col justify-between font-arabic" style="width: 1122px; height: 793px; padding: 40px 55px; background: #ffffff; border: 12px solid #047857;">
       
       <!-- WATERMARK LOGO DI BACKGROUND -->
       <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.03]">
@@ -48,26 +57,26 @@
         <div class="text-center mb-3 relative z-10 border-b border-emerald-800/30 pb-3">
           <div class="flex justify-center mb-1">
             <img id="logoImg" src="/logo.png" alt="Logo" class="h-24 object-contain" onerror="this.onerror=null; this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"/>
-            <div id="logoFallback" class="hidden w-20 h-20 bg-emerald-800 text-amber-300 font-bold rounded-full items-center justify-center text-2xl shadow font-serif border-2 border-amber-400">
+            <div id="logoFallback" class="hidden w-20 h-20 bg-emerald-800 text-amber-300 font-bold rounded-full items-center justify-center text-2xl shadow border-2 border-amber-400 font-arabic">
               تعلّم
             </div>
           </div>
-          <h1 class="text-2xl font-extrabold text-emerald-900 font-serif">TA'ALLUM ARABIC</h1>
-          <h2 class="text-xs font-bold text-emerald-800 font-sans mt-0.5" dir="ltr">TEST OF ARABIC AS A FOREIGN LANGUAGE (TOAFL)</h2>
+          <h1 class="text-2xl font-extrabold text-emerald-900 font-latin">TA'ALLUM ARABIC</h1>
+          <h2 class="text-xs font-bold text-emerald-800 font-latin mt-0.5" dir="ltr">TEST OF ARABIC AS A FOREIGN LANGUAGE (TOAFL)</h2>
         </div>
 
         <!-- JUDUL SERTIFIKAT -->
         <div class="text-center my-2 relative z-10">
-          <h1 class="text-4xl font-extrabold text-emerald-950 font-serif leading-none mb-1">شهادة كفاءة</h1>
-          <p class="text-base font-bold text-amber-700">في اللغة العربية لغير الناطقين بها</p>
+          <h1 class="text-4xl font-extrabold text-emerald-950 leading-none mb-1 font-arabic">شهادة كفاءة</h1>
+          <p class="text-base font-bold text-amber-700 font-arabic">في اللغة العربية لغير الناطقين بها</p>
         </div>
 
         <!-- DATA PESERTA & NARASI -->
         <div class="text-center my-3 px-6 relative z-10">
-          <p class="text-xs text-slate-500 font-serif mb-1">تشهد إدارة البرنامج بأن :</p>
-          <h2 id="dispName" class="text-3xl font-extrabold text-emerald-900 font-serif border-b-2 border-emerald-800/30 inline-block px-8 pb-3 mb-2">—</h2>
-          <p class="text-sm text-slate-700 leading-relaxed font-serif max-w-3xl mx-auto text-center">
-            قد أتم بنجاح اختبار كفاءة اللغة العربية <span dir="ltr" class="font-sans font-bold text-emerald-900">(TOAFL)</span> المعتمد عبر مركز <span class="font-bold text-emerald-900">Ta'allum Arabic</span> وفق معايير التقويم الأكاديمي المحددة، وحصل على الدرجات والتقدير المستحقين أداءه، وبناء عليه حررت له هذه الشهادة إثباتا لمستواه اللغوي.
+          <p class="text-xs text-slate-500 mb-1 font-arabic">تشهد إدارة البرنامج بأن :</p>
+          <h2 id="dispName" class="text-3xl font-extrabold text-emerald-900 border-b-2 border-emerald-800/30 inline-block px-8 pb-3 mb-2 font-arabic">—</h2>
+          <p class="text-sm text-slate-700 leading-relaxed max-w-3xl mx-auto text-center font-arabic">
+            قد أتم بنجاح اختبار كفاءة اللغة العربية <span dir="ltr" class="font-bold text-emerald-900 font-latin">(TOAFL)</span> المعتمد عبر مركز <span class="font-bold text-emerald-900 font-latin">Ta'allum Arabic</span> وفق معايير التقويم الأكاديمي المحددة، وحصل على الدرجات والتقدير المستحقين أداءه، وبناء عليه حررت له هذه الشهادة إثباتا لمستواه اللغوي.
           </p>
         </div>
 
@@ -77,16 +86,15 @@
           <!-- TABEL SKOR -->
           <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200 text-right" style="width: 640px;">
             <div class="flex justify-between items-center border-b border-emerald-300 pb-2 mb-2">
-              <span class="text-xs font-bold text-slate-800">الدرجة الكلية :</span>
-              <span id="dispScore" class="text-2xl font-extrabold text-emerald-900 font-serif">(0)</span>
+              <span class="text-xs font-bold text-slate-800 font-arabic">الدرجة الكلية :</span>
+              <span id="dispScore" class="text-2xl font-extrabold text-emerald-900 font-latin">(0)</span>
             </div>
             
             <div class="flex justify-between items-center mb-2.5 bg-emerald-100/70 p-2 rounded-lg border border-emerald-300">
-              <span class="text-slate-700 font-bold text-[11px]">التقدير والرمز :</span>
+              <span class="text-slate-700 font-bold text-[11px] font-arabic">التقدير والرمز :</span>
               <div class="flex items-center gap-2">
-                <span id="dispPredikatText" class="text-emerald-900 font-bold text-xs font-serif">—</span>
-                <!-- PERBAIKAN TOTAL BOX PREDIKAT HURUF (C/B/A) -->
-                <span id="dispPredikatSymbol" dir="ltr" style="display: inline-block; min-width: 36px; height: 26px; line-height: 26px; text-align: center; background-color: #065f46; color: #fde047; font-weight: 800; border-radius: 4px; font-size: 13px; font-family: sans-serif;">A</span>
+                <span id="dispPredikatText" class="text-emerald-900 font-bold text-xs font-arabic">—</span>
+                <span id="dispPredikatSymbol" dir="ltr" style="display: inline-block; min-width: 36px; height: 26px; line-height: 26px; text-align: center; background-color: #065f46; color: #fde047; font-weight: 800; border-radius: 4px; font-size: 13px;" class="font-latin">A</span>
               </div>
             </div>
 
@@ -94,34 +102,34 @@
             <div class="space-y-1.5 text-xs text-slate-800">
               <div class="flex justify-between items-center border-b border-slate-200/60 pb-1">
                 <div class="flex items-center gap-1.5">
-                  <span class="font-bold text-slate-800">فهم المسموع</span>
-                  <span class="text-slate-500 font-sans text-[11px]" dir="ltr">(Listening)</span>
+                  <span class="font-bold text-slate-800 font-arabic">فهم المسموع</span>
+                  <span class="text-slate-500 text-[11px] font-latin" dir="ltr">(Listening)</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <span class="text-slate-400 font-bold">:</span>
-                  <b id="dispIs" class="font-serif text-sm text-emerald-900 font-bold min-w-[20px] text-left">0</b>
+                  <b id="dispIs" class="text-sm text-emerald-900 font-bold min-w-[20px] text-left font-latin">0</b>
                 </div>
               </div>
 
               <div class="flex justify-between items-center border-b border-slate-200/60 pb-1">
                 <div class="flex items-center gap-1.5">
-                  <span class="font-bold text-slate-800">فهم التراكيب والتعبيرات</span>
-                  <span class="text-slate-500 font-sans text-[11px]" dir="ltr">(Structure)</span>
+                  <span class="font-bold text-slate-800 font-arabic">فهم التراكيب والتعبيرات</span>
+                  <span class="text-slate-500 text-[11px] font-latin" dir="ltr">(Structure)</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <span class="text-slate-400 font-bold">:</span>
-                  <b id="dispTa" class="font-serif text-sm text-emerald-900 font-bold min-w-[20px] text-left">0</b>
+                  <b id="dispTa" class="text-sm text-emerald-900 font-bold min-w-[20px] text-left font-latin">0</b>
                 </div>
               </div>
 
               <div class="flex justify-between items-center">
                 <div class="flex items-center gap-1.5">
-                  <span class="font-bold text-slate-800">فهم المقروء</span>
-                  <span class="text-slate-500 font-sans text-[11px]" dir="ltr">(Reading)</span>
+                  <span class="font-bold text-slate-800 font-arabic">فهم المقروء</span>
+                  <span class="text-slate-500 text-[11px] font-latin" dir="ltr">(Reading)</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <span class="text-slate-400 font-bold">:</span>
-                  <b id="dispQi" class="font-serif text-sm text-emerald-900 font-bold min-w-[20px] text-left">0</b>
+                  <b id="dispQi" class="text-sm text-emerald-900 font-bold min-w-[20px] text-left font-latin">0</b>
                 </div>
               </div>
             </div>
@@ -130,8 +138,8 @@
           <!-- VERIFIKASI QR CODE -->
           <div class="flex flex-col items-center justify-center p-3 border border-slate-300 rounded-xl bg-white shadow-sm" style="width: 260px;">
             <div id="certQr" class="bg-white p-1 border border-slate-200 rounded mb-2"></div>
-            <p class="text-[11px] font-bold text-emerald-900 font-sans text-center">رمز التحقق الرقمي</p>
-            <p class="text-[9px] text-slate-400 font-mono text-center" dir="ltr">Digital Verification QR</p>
+            <p class="text-[11px] font-bold text-emerald-900 font-arabic text-center">رمز التحقق الرقمي</p>
+            <p class="text-[9px] text-slate-400 font-latin text-center" dir="ltr">Digital Verification QR</p>
           </div>
 
         </div>
@@ -139,16 +147,16 @@
 
       <!-- FOOTER -->
       <div class="flex justify-between items-end border-t border-slate-200 pt-3 relative z-10 mt-3">
-        <div class="text-right space-y-0.5 text-[11px] text-slate-600">
-          <p>رقم الشهادة : <b id="dispId" class="font-mono text-emerald-900">TA-000000</b></p>
+        <div class="text-right space-y-0.5 text-[11px] text-slate-600 font-arabic">
+          <p>رقم الشهادة : <b id="dispId" class="text-emerald-900 font-latin">TA-000000</b></p>
           <p>تاريخ الإصدار : <b id="dispDate">١٤ أغسطس ٢٠٢٦</b></p>
           <p>مدة الصلاحية : <b>سنة واحدة (حتى <span id="dispExpDate">١٤ أغسطس ٢٠٢٧</span>)</b></p>
         </div>
 
         <div class="text-center space-y-0.5">
-          <p class="text-[10px] text-slate-500 uppercase font-bold">اعتماد الشهادة</p>
-          <p class="text-xs font-bold text-emerald-900 font-serif">إدارة برنامج Ta'allum Arabic</p>
-          <p class="text-[9px] text-slate-400 font-mono" dir="ltr">Certified Digital Assessment System</p>
+          <p class="text-[10px] text-slate-500 uppercase font-bold font-arabic">اعتماد الشهادة</p>
+          <p class="text-xs font-bold text-emerald-900 font-arabic">إدارة برنامج Ta'allum Arabic</p>
+          <p class="text-[9px] text-slate-400 font-latin" dir="ltr">Certified Digital Assessment System</p>
         </div>
       </div>
 
