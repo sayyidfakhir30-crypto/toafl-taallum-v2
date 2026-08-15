@@ -17,7 +17,8 @@
   * { box-sizing: border-box; }
 
   @page {
-    size: landscape 297mm 210mm;
+    size: 297mm 210mm;
+    size: landscape;
     margin: 0;
   }
 
@@ -31,112 +32,212 @@
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
-    .no-print { display: none !important; }
-    .cert-outer-wrapper { width: 297mm !important; height: 210mm !important; padding: 0 !important; }
+    .no-print {
+      display: none !important;
+    }
+    .cert-outer-wrapper {
+      padding: 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      width: 297mm !important;
+      height: 210mm !important;
+    }
     #certificate {
       position: absolute !important;
-      top: 0 !important; left: 0 !important;
-      width: 297mm !important; height: 210mm !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 297mm !important;
+      height: 210mm !important;
       border: 14px solid #047857 !important;
+      box-shadow: none !important;
       margin: 0 !important;
+      border-radius: 0 !important;
     }
   }
 </style>
 </head>
-<body class="bg-slate-100 p-4">
+<body class="bg-slate-100 p-6">
 
-<div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-4">
+<div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
   
-  <!-- FORM -->
+  <!-- FORM INPUT ADMIN -->
   <div class="w-full lg:w-1/3 bg-white p-6 rounded-xl shadow-md h-fit no-print">
-    <h2 class="font-bold mb-4 border-b pb-2">Input Data</h2>
+    <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Input Data Sertifikat</h2>
+    
     <div class="space-y-3 text-sm">
-      <input type="text" id="inName" value="سيد فاخر مطلب السقاف" class="w-full border p-2 rounded text-right" dir="rtl" oninput="updateCert()">
-      <input type="text" id="inId" value="TA-731155" class="w-full border p-2 rounded" oninput="updateCert()">
-      <input type="number" id="inScore" value="310" class="w-full border p-2 rounded" oninput="updateCert()">
+      <div>
+        <label class="block font-bold text-slate-700">Nama Peserta (Bahasa Arab)</label>
+        <input type="text" id="inName" value="سيد فاخر مطلب السقاف" class="w-full border p-2 rounded text-right" dir="rtl" oninput="updateCert()">
+      </div>
+      <div>
+        <label class="block font-bold text-slate-700">Nomor Sertifikat</label>
+        <input type="text" id="inId" value="TA-731155" class="w-full border p-2 rounded" oninput="updateCert()">
+      </div>
+      <div>
+        <label class="block font-bold text-slate-700">Skor Total</label>
+        <input type="number" id="inScore" value="310" class="w-full border p-2 rounded" oninput="updateCert()">
+      </div>
       <div class="grid grid-cols-3 gap-2">
-        <input type="number" id="inIs" value="31" class="w-full border p-2 rounded" oninput="updateCert()">
-        <input type="number" id="inTa" value="31" class="w-full border p-2 rounded" oninput="updateCert()">
-        <input type="number" id="inQi" value="31" class="w-full border p-2 rounded" oninput="updateCert()">
+        <div>
+          <label class="block font-bold text-slate-700">Listening</label>
+          <input type="number" id="inIs" value="31" class="w-full border p-2 rounded" oninput="updateCert()">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700">Structure</label>
+          <input type="number" id="inTa" value="31" class="w-full border p-2 rounded" oninput="updateCert()">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700">Reading</label>
+          <input type="number" id="inQi" value="31" class="w-full border p-2 rounded" oninput="updateCert()">
+        </div>
       </div>
-      <button onclick="window.print()" class="w-full bg-emerald-700 text-white font-bold py-3 rounded mt-2">Cetak PDF</button>
-    </div>
-  </div>
-
-  <!-- SERTIFIKAT -->
-  <div class="w-full lg:w-2/3 overflow-auto border p-2 bg-slate-300 rounded-xl flex justify-center cert-outer-wrapper">
-    <div id="certificate" dir="rtl" class="bg-white text-slate-900 relative flex flex-col justify-between cert-arabic shadow-xl" style="width: 1122px; height: 793px; padding: 15px 40px 15px 40px; border: 14px solid #047857; min-width: 1122px;">
       
-      <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]"><img src="logo.png" class="w-[400px]" onerror="this.style.display='none';"/></div>
-      <div class="absolute inset-2 border border-amber-500/50 pointer-events-none z-10"></div>
+      <button onclick="downloadPDF()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded mt-4 shadow">
+        Cetak & Simpan PDF (A4 Lanskap)
+      </button>
+    </div>
+  </div>
 
-      <!-- HEADER -->
-      <div class="relative z-10 text-center border-b border-emerald-800/30 pb-1">
-        <img src="logo.png" class="w-12 h-12 object-contain mx-auto" onerror="this.style.display='none';" />
-        <h1 class="text-xl font-extrabold text-emerald-900 cert-latin leading-tight">TA'ALLUM ARABIC</h1>
-        <h2 class="text-[10px] font-bold text-emerald-800 cert-latin" dir="ltr">TEST OF ARABIC AS A FOREIGN LANGUAGE (TOAFL)</h2>
+  <!-- PRATINJAU TEMPLATE SERTIFIKAT -->
+  <div class="w-full lg:w-2/3 overflow-auto border p-4 bg-slate-300 rounded-xl flex justify-center cert-outer-wrapper">
+    <div id="certificate" dir="rtl" class="bg-white text-slate-900 relative overflow-hidden flex flex-col justify-between cert-arabic shadow-xl" style="width: 1122px; height: 793px; padding: 25px 45px 25px 45px; border: 14px solid #047857; min-width: 1122px;">
+      
+      <!-- WATERMARK LOGO -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.03]">
+        <img src="logo.png" alt="Watermark" class="w-[480px] h-[480px] object-contain" onerror="this.style.display='none';"/>
       </div>
 
-      <!-- JUDUL (Font dinaikkan) -->
-      <div class="relative z-10 text-center my-0.5">
-        <h1 class="text-[35px] font-extrabold text-emerald-950 cert-arabic leading-tight">شهادة كفاءة</h1>
-        <p class="text-[21px] font-bold text-amber-700 cert-arabic">في اللغة العربية لغير الناطقين بها</p>
-      </div>
+      <!-- GARIS EMAS BORDER INNER -->
+      <div class="absolute inset-3 border border-amber-500/50 pointer-events-none z-10"></div>
 
-      <!-- NARASI (Font dinaikkan + Padding ketat) -->
-      <div class="relative z-10 text-center px-4">
-        <p class="text-[17px] text-slate-600 cert-arabic">تشهد إدارة البرنامج بأن :</p>
-        <h2 id="outName" class="text-3xl font-extrabold text-emerald-900 border-b-2 border-emerald-800/30 inline-block px-10 pb-0.5 mb-1 cert-arabic">-</h2>
-        <p class="text-[17px] text-slate-700 max-w-4xl mx-auto cert-arabic leading-tight">
-          قد أتم بنجاح اختبار كفاءة اللغة العربية <span dir="ltr" class="font-bold text-emerald-900 cert-latin">(TOAFL)</span> المعتمد عبر مركز <span dir="ltr" class="font-bold text-emerald-900 cert-latin">Ta'allum Arabic</span> وفق معايير التقويم الأكاديمي المحددة، وحصل على الدرجات والتقدير المستحقين أداءه، وبناء عليه حررت له هذه الشهادة إثباتا لمستواه اللغوي.
-        </p>
-      </div>
+      <div class="relative z-10 flex flex-col justify-between h-full">
+        
+        <!-- HEADER ATAS -->
+        <div class="text-center mb-1 border-b-2 border-emerald-800/30 pb-2">
+          <img src="logo.png" alt="Logo Ta'allum" class="w-16 h-16 object-contain mx-auto mb-1" onerror="this.style.display='none';" />
+          <h1 class="text-2xl font-extrabold text-emerald-900 cert-latin leading-tight tracking-wide">TA'ALLUM ARABIC</h1>
+          <h2 class="text-xs font-bold text-emerald-800 cert-latin mt-0.5 tracking-wider" dir="ltr">TEST OF ARABIC AS A FOREIGN LANGUAGE (TOAFL)</h2>
+        </div>
 
-      <!-- SKOR -->
-      <div class="relative z-10 px-2 flex gap-4 items-center justify-center">
-        <div class="bg-emerald-50/70 p-2 rounded-xl border border-emerald-200 text-right w-[600px]">
-          <div class="flex justify-between items-center text-sm border-b border-emerald-300 pb-0.5">
-            <span class="font-bold cert-arabic">الدرجة الكلية:</span>
-            <span id="outScore" class="text-lg font-bold cert-latin">(0)</span>
+        <!-- JUDUL SERTIFIKAT -->
+<div class="text-center my-0.5">
+  <h1 class="text-5xl font-extrabold text-emerald-950 mb-0.5 cert-arabic leading-tight">شهادة كفاءة</h1>
+  <p class="text-2xl font-bold text-amber-700 cert-arabic">في اللغة العربية لغير الناطقين بها</p>
+</div>
+
+
+        <!-- NAMA PESERTA & NARASI -->
+        <div class="text-center my-0.5 px-4">
+  <p class="text-sm text-slate-600 mb-0.5 cert-arabic">تشهد إدارة البرنامج بأن :</p>
+  <h2 id="outName" class="text-3xl font-extrabold text-emerald-900 border-b-2 border-emerald-800/30 inline-block px-10 pb-1 mb-1 cert-arabic" style="line-height: 1.2;">-</h2>
+  <p class="text-sm text-slate-700 max-w-4xl mx-auto text-center cert-arabic leading-relaxed">
+    قد أتم بنجاح اختبار كفاءة اللغة العربية <span dir="ltr" class="font-bold text-emerald-900 cert-latin inline-block mx-1">(TOAFL)</span> المعتمد عبر مركز <span dir="ltr" class="font-bold text-emerald-900 cert-latin inline-block mx-1">Ta'allum Arabic</span> وفق معايير التقويم الأكاديمي المحددة، وحصل على الدرجات والتقدير المستحقين أداءه، وبناء عليه حررت له هذه الشهادة إثباتا لمستواه اللغوي.
+  </p>
+</div>
+
+        <!-- KOTAK SKOR & QR CODE -->
+        <div class="my-2 px-2 flex gap-5 items-stretch justify-center">
+          <div class="bg-emerald-50/70 p-3.5 rounded-xl border-2 border-emerald-200 text-right shadow-sm flex flex-col justify-between" style="width: 640px;">
+            <div class="flex justify-between items-center border-b border-emerald-300 pb-1.5 mb-1.5">
+              <span class="text-xs font-bold text-slate-800 cert-arabic">الدرجة الكلية :</span>
+              <span id="outScore" class="text-xl font-extrabold text-emerald-900 cert-latin">(0)</span>
+            </div>
+            
+            <div class="flex justify-between items-center mb-1.5 bg-emerald-100/80 p-1.5 rounded-lg border border-emerald-300">
+              <span class="text-slate-800 font-bold text-xs cert-arabic">التقدير والرمز :</span>
+              <div class="flex items-center gap-2">
+                <span id="outPredText" class="text-emerald-950 font-bold text-xs cert-arabic">-</span>
+                <span id="outPredSym" dir="ltr" class="bg-emerald-800 text-amber-300 font-bold px-3 py-0.5 rounded text-xs cert-latin inline-flex items-center justify-center min-w-[34px] h-[24px]">A</span>
+              </div>
+            </div>
+
+            <div class="space-y-1 text-xs text-slate-800">
+              <div class="flex justify-between items-center border-b border-slate-200/60 pb-0.5">
+                <span class="cert-arabic">فهم المسموع <span class="text-slate-500 text-[10px] cert-latin" dir="ltr">(Listening)</span> :</span>
+                <b id="outIs" class="text-xs text-emerald-900 font-bold cert-latin">0</b>
+              </div>
+              <div class="flex justify-between items-center border-b border-slate-200/60 pb-0.5">
+                <span class="cert-arabic">فهم التراكيب والتعبيرات <span class="text-slate-500 text-[10px] cert-latin" dir="ltr">(Structure)</span> :</span>
+                <b id="outTa" class="text-xs text-emerald-900 font-bold cert-latin">0</b>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="cert-arabic">فهم المقروء <span class="text-slate-500 text-[10px] cert-latin" dir="ltr">(Reading)</span> :</span>
+                <b id="outQi" class="text-xs text-emerald-900 font-bold cert-latin">0</b>
+              </div>
+            </div>
           </div>
-          <div class="text-xs space-y-0.5 mt-0.5">
-            <div class="flex justify-between"><span>فهم المسموع:</span><b id="outIs">0</b></div>
-            <div class="flex justify-between"><span>فهم التراكيب:</span><b id="outTa">0</b></div>
-            <div class="flex justify-between"><span>فهم المقروء:</span><b id="outQi">0</b></div>
+
+          <div class="flex flex-col items-center justify-center p-2.5 border-2 border-slate-300 rounded-xl bg-white shadow-sm" style="width: 210px;">
+            <div id="certQr" class="bg-white p-1 border border-slate-200 rounded mb-1 flex items-center justify-center min-h-[80px] w-[80px] h-[80px]"></div>
+            <p class="text-xs font-bold text-emerald-900 cert-arabic text-center">رمز التحقق الرقمي</p>
+            <p class="text-[8px] text-slate-400 cert-latin text-center" dir="ltr">Digital Verification QR</p>
           </div>
         </div>
-        <div id="certQr" class="w-[70px] h-[70px] border border-slate-300"></div>
-      </div>
 
-      <!-- FOOTER -->
-      <div class="relative z-10 flex justify-between items-end border-t border-slate-300 pt-1 px-2 mt-0.5">
-        <div class="text-right text-[10px] text-slate-600 cert-arabic">
-          <p>رقم الشهادة : <b id="outId" class="cert-latin">TA-000000</b></p>
-          <p>تاريخ الإصدار : <b>١٥ أغسطس ٢٠٢٦</b></p>
+        <!-- FOOTER (DIKUNCI PRESISI DI DALAM GARIS EMAS) -->
+        <div class="flex justify-between items-end border-t-2 border-slate-200 pt-2 px-2 mt-auto">
+          <div class="text-right space-y-0.5 text-xs text-slate-700 cert-arabic">
+            <p>رقم الشهادة : <b id="outId" class="text-emerald-900 cert-latin font-bold">TA-000000</b></p>
+            <p>تاريخ الإصدار : <b id="outDate">١٥ أغسطس ٢٠٢٦</b></p>
+            <p>مدة الصلاحية : <b>سنة واحدة (حتى <span id="outExp">١٥ أغسطس ٢٠٢٧</span>)</b></p>
+          </div>
+
+          <div class="text-center space-y-0.5">
+            <p class="text-xs text-slate-500 uppercase font-bold cert-arabic">اعتماد الشهادة</p>
+            <p class="text-xs font-bold text-emerald-900 cert-arabic">إدارة برنامج Ta'allum Arabic</p>
+            <p class="text-[8px] text-slate-400 cert-latin" dir="ltr">Certified Digital Assessment System</p>
+          </div>
         </div>
-        <div class="text-center">
-          <p class="text-[10px] font-bold text-emerald-900 cert-arabic">إدارة برنامج Ta'allum Arabic</p>
-        </div>
+
       </div>
     </div>
   </div>
+
 </div>
 
 <script>
+function getPredikat(scaled) {
+  if (scaled >= 601) return { symbol: "A", text: "امتياز" };
+  if (scaled >= 501) return { symbol: "B+", text: "جيد جداً" };
+  if (scaled >= 451) return { symbol: "B", text: "جيد" };
+  if (scaled >= 401) return { symbol: "B-", text: "مقبول" };
+  if (scaled >= 301) return { symbol: "C", text: "ضعيف" };
+  return { symbol: "D", text: "ضعيف جداً" };
+}
+
 function updateCert() {
   const name = document.getElementById('inName').value || '—';
   const id = document.getElementById('inId').value || 'TA-000000';
-  const score = document.getElementById('inScore').value || '0';
+  const score = parseInt(document.getElementById('inScore').value || '0');
+  const is = document.getElementById('inIs').value || '0';
+  const ta = document.getElementById('inTa').value || '0';
+  const qi = document.getElementById('inQi').value || '0';
+
+  const pInfo = getPredikat(score);
+
   document.getElementById('outName').textContent = name;
   document.getElementById('outId').textContent = id;
   document.getElementById('outScore').textContent = `(${score})`;
-  document.getElementById('outIs').textContent = document.getElementById('inIs').value;
-  document.getElementById('outTa').textContent = document.getElementById('inTa').value;
-  document.getElementById('outQi').textContent = document.getElementById('inQi').value;
-  const qr = document.getElementById('certQr');
-  qr.innerHTML = '';
-  new QRCode(qr, {text: `Cert: ${id}`, width: 70, height: 70});
+  document.getElementById('outPredText').textContent = pInfo.text;
+  document.getElementById('outPredSym').textContent = pInfo.symbol;
+  document.getElementById('outIs').textContent = is;
+  document.getElementById('outTa').textContent = ta;
+  document.getElementById('outQi').textContent = qi;
+
+  const qrContainer = document.getElementById('certQr');
+  qrContainer.innerHTML = '';
+  
+  new QRCode(qrContainer, {
+    text: `Ta'allum TOAFL | Cert: ${id} | Name: ${name}`,
+    width: 80, height: 80, colorDark: "#047857", colorLight: "#ffffff"
+  });
 }
+
+function downloadPDF() {
+  window.print();
+}
+
 updateCert();
 </script>
 </body>
