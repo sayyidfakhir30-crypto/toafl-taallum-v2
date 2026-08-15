@@ -85,24 +85,22 @@
           
           <!-- TABEL SKOR -->
           <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200 text-right" style="width: 640px;">
-            
-            <!-- BARIS SKOR TOTAL (PRESISI TENGAH VERTIKAL) -->
-            <div class="flex justify-between items-center border-b border-emerald-300 pb-2 mb-2 h-10">
-              <span class="text-xs font-bold text-slate-800 font-arabic leading-none">الدرجة الكلية :</span>
-              <span id="dispScore" class="text-2xl font-extrabold text-emerald-900 font-latin leading-none flex items-center">(0)</span>
+            <div class="flex justify-between items-center border-b border-emerald-300 pb-2 mb-2">
+              <span class="text-xs font-bold text-slate-800 font-arabic">الدرجة الكلية :</span>
+              <span id="dispScore" class="text-2xl font-extrabold text-emerald-900 font-latin">(0)</span>
             </div>
             
-            <!-- BARIS PREDIKAT (PRESISI TENGAH) -->
-            <div class="flex justify-between items-center mb-2.5 bg-emerald-100/70 p-2 rounded-lg border border-emerald-300 h-10">
-              <span class="text-slate-700 font-bold text-[11px] font-arabic leading-none flex items-center">التقدير والرمز :</span>
-              <div class="flex items-center gap-2 h-full">
-                <span id="dispPredikatText" class="text-emerald-900 font-bold text-xs font-arabic leading-none flex items-center">—</span>
-                <!-- BADGE HURUF (DESAIN PAS DI TENGAH KOTAK) -->
-                <span id="dispPredikatSymbol" dir="ltr" style="display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 26px; background-color: #065f46; color: #fde047; font-weight: bold; font-size: 15px; font-family: 'Times New Roman', serif !important; border-radius: 4px; line-height: 1; padding-bottom: 3px;">A</span>
+            <!-- BARIS PREDIKAT & BADGE DIBUAT PRESISI DI TENGAH -->
+            <div class="flex justify-between items-center mb-2.5 bg-emerald-100/70 p-2 rounded-lg border border-emerald-300" style="min-height: 42px;">
+              <span class="text-slate-700 font-bold text-[11px] font-arabic flex items-center">التقدير والرمز :</span>
+              <div class="flex items-center gap-2">
+                <span id="dispPredikatText" class="text-emerald-900 font-bold text-xs font-arabic flex items-center">—</span>
+                <!-- BADGE C PRESISI TENGAH LATAR HIJAU -->
+                <span id="dispPredikatSymbol" dir="ltr" style="display: inline-block; width: 38px; height: 28px; line-height: 24px; text-align: center; background-color: #065f46; color: #fde047; font-weight: 800; font-size: 16px; font-family: 'Times New Roman', Times, serif !important; border-radius: 4px; vertical-align: middle;">A</span>
               </div>
             </div>
 
-            <!-- TATA LETAK SUB-SKOR -->
+            <!-- TATA LETAK SEIMBANG ARAB & INGGRIS -->
             <div class="space-y-1.5 text-xs text-slate-800">
               <div class="flex justify-between items-center border-b border-slate-200/60 pb-1">
                 <div class="flex items-center gap-1.5">
