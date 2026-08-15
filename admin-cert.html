@@ -236,8 +236,12 @@ function updateCert() {
 }
 
 function downloadPDF() {
+  const nameInput = document.getElementById('inName').value || 'Sertifikat';
+  // Mengatur nama file dokumen PDF sesuai nama peserta dan menghapus karakter spesial
+  document.title = `Sertifikat_${nameInput.replace(/[^a-zA-Z0-9ا-ي ]/g, '').trim()}`;
   window.print();
 }
+
 
 updateCert();
 </script>
