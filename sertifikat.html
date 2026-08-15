@@ -83,7 +83,8 @@
                 <span class="text-slate-700 font-bold text-[11px]">التقدير والرمز :</span>
                 <div class="flex items-center gap-2">
                   <span id="dispPredikatText" class="text-emerald-900 font-bold text-xs font-serif">—</span>
-                  <span id="dispPredikatSymbol" dir="ltr" class="bg-emerald-800 text-amber-300 font-bold px-2.5 py-0.5 rounded text-xs inline-block text-center font-sans">A</span>
+                  <!-- PERBAIKAN BADGE PREDIKAT (LEBIH LUAS & DI TENGAH) -->
+                  <span id="dispPredikatSymbol" dir="ltr" class="bg-emerald-800 text-amber-300 font-bold min-w-[34px] h-6 flex items-center justify-center rounded text-xs font-sans px-1">A</span>
                 </div>
               </div>
 
@@ -230,19 +231,26 @@ async function downloadPDF() {
     return;
   }
   await document.fonts.ready;
+  
   const element = document.getElementById('certificate');
   
-  const canvas = await html2canvas(element, { 
+  const clone = element.cloneNode(true);
+  clone.style.position = 'fixed';
+  clone.style.top = '-9999px';
+  clone.style.left = '-9999px';
+  clone.style.width = '1122px';
+  clone.style.height = '793px';
+  document.body.appendChild(clone);
+
+  const canvas = await html2canvas(clone, { 
     scale: 2, 
     useCORS: true,
-    scrollX: 0,
-    scrollY: 0,
     width: 1122,
-    height: 793,
-    windowWidth: 1122,
-    windowHeight: 793
+    height: 793
   });
   
+  document.body.removeChild(clone);
+
   const imgData = canvas.toDataURL('image/jpeg', 1.0);
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
@@ -254,3 +262,4 @@ init();
 </script>
 </body>
 </html>
+
