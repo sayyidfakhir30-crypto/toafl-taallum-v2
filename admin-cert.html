@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Generator Sertifikat TOAFL</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
@@ -16,21 +14,53 @@
   }
   .cert-arabic { font-family: 'Traditional Arabic', 'Amiri', serif !important; }
   .cert-latin { font-family: 'Times New Roman', Times, serif !important; }
-  * { letter-spacing: normal !important; box-sizing: border-box; }
+  * { box-sizing: border-box; }
+
+  /* GAYA CETAK PRESISI A4 (MENJAMIN TEKS ARAB & QR CODE MURNI DARI BROWSER) */
+  @media print {
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+    body {
+      background: #ffffff !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .no-print {
+      display: none !important;
+    }
+    .cert-container-wrapper {
+      padding: 0 !important;
+      border: none !important;
+      background: transparent !important;
+    }
+    #certificate {
+      width: 297mm !important;
+      height: 210mm !important;
+      border: 12px solid #047857 !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+      page-break-after: avoid;
+      page-break-inside: avoid;
+    }
+  }
 </style>
 </head>
 <body class="bg-slate-100 p-6">
 
 <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
   
-  <!-- FORM INPUT ADMIN -->
-  <div class="w-full lg:w-1/3 bg-white p-6 rounded-xl shadow-md h-fit">
+  <!-- FORM INPUT ADMIN (OTOMATIS SEMBUNYI SAAT DICETAK) -->
+  <div class="w-full lg:w-1/3 bg-white p-6 rounded-xl shadow-md h-fit no-print">
     <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Input Data Sertifikat</h2>
     
     <div class="space-y-3 text-sm">
       <div>
-        <label class="block font-bold text-slate-700">Nama Peserta</label>
-        <input type="text" id="inName" value="Sayyid Fakhir" class="w-full border p-2 rounded" oninput="updateCert()">
+        <label class="block font-bold text-slate-700">Nama Peserta (Bahasa Arab)</label>
+        <input type="text" id="inName" value="سيد فاخر مطلب السقاف" class="w-full border p-2 rounded text-right" dir="rtl" oninput="updateCert()">
       </div>
       <div>
         <label class="block font-bold text-slate-700">Nomor Sertifikat</label>
@@ -56,13 +86,14 @@
       </div>
       
       <button onclick="downloadPDF()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded mt-4 shadow">
-        Cetak & Unduh PDF (A4)
+        Cetak & Simpan PDF (A4)
       </button>
+      <p class="text-xs text-slate-500 mt-2 text-center">Saat jendela cetak terbuka, pilih Tujuan: <b>Simpan sebagai PDF (Save as PDF)</b>.</p>
     </div>
   </div>
 
-  <!-- PRATINJAU TEMPLATE SERTIFIKAT A4 -->
-  <div class="w-full lg:w-2/3 overflow-auto border p-4 bg-slate-300 rounded-xl flex justify-center">
+  <!-- PRATINJAU TEMPLATE SERTIFIKAT -->
+  <div class="w-full lg:w-2/3 overflow-auto border p-4 bg-slate-300 rounded-xl flex justify-center cert-container-wrapper">
     <div id="certificate" dir="rtl" class="bg-white text-slate-900 relative overflow-hidden flex flex-col justify-between cert-arabic shadow-xl" style="width: 1122px; height: 793px; padding: 25px 50px 20px 50px; border: 12px solid #047857; min-width: 1122px;">
       
       <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.03]">
@@ -127,7 +158,7 @@
             </div>
 
             <div class="flex flex-col items-center justify-center p-2 border border-slate-300 rounded-xl bg-white shadow-sm" style="width: 230px;">
-              <div id="certQr" class="bg-white p-1 border border-slate-200 rounded mb-1"></div>
+              <div id="certQr" class="bg-white p-1 border border-slate-200 rounded mb-1 flex items-center justify-center min-h-[72px]"></div>
               <p class="text-[10px] font-bold text-emerald-900 cert-arabic text-center">رمز التحقق الرقمي</p>
               <p class="text-[8px] text-slate-400 cert-latin text-center" dir="ltr">Digital Verification QR</p>
             </div>
@@ -138,8 +169,8 @@
         <div class="flex justify-between items-end border-t border-slate-200 pt-1.5 px-3 mt-auto pb-1">
           <div class="text-right space-y-0.5 text-[10px] text-slate-600 cert-arabic">
             <p>رقم الشهادة : <b id="outId" class="text-emerald-900 cert-latin">TA-000000</b></p>
-            <p>تاريخ الإصدار : <b id="outDate">١٤ أغسطس ٢٠٢٦</b></p>
-            <p>مدة الصلاحية : <b>سنة واحدة (حتى <span id="outExp">١٤ أغسطس ٢٠٢٧</span>)</b></p>
+            <p>تاريخ الإصدار : <b id="outDate">١٥ أغسطس ٢٠٢٦</b></p>
+            <p>مدة الصلاحية : <b>سنة واحدة (حتى <span id="outExp">١٥ أغسطس ٢٠٢٧</span>)</b></p>
           </div>
 
           <div class="text-center space-y-0.5">
@@ -183,22 +214,17 @@ function updateCert() {
   document.getElementById('outTa').textContent = ta;
   document.getElementById('outQi').textContent = qi;
 
-  document.getElementById('certQr').innerHTML = '';
-  new QRCode(document.getElementById('certQr'), {
+  const qrContainer = document.getElementById('certQr');
+  qrContainer.innerHTML = '';
+  
+  new QRCode(qrContainer, {
     text: `Ta'allum TOAFL | Cert: ${id} | Name: ${name}`,
     width: 70, height: 70, colorDark: "#047857", colorLight: "#ffffff"
   });
 }
 
-async function downloadPDF() {
-  await document.fonts.ready;
-  const element = document.getElementById('certificate');
-  const canvas = await html2canvas(element, { scale: 2, useCORS: true, width: 1122, height: 793 });
-  const imgData = canvas.toDataURL('image/png');
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-  pdf.addImage(imgData, 'PNG', 0, 0, 297, 210);
-  pdf.save(`TOAFL_Certificate_${document.getElementById('inName').value}.pdf`);
+function downloadPDF() {
+  window.print();
 }
 
 updateCert();
