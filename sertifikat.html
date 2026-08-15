@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   body { font-family: 'Tajawal', sans-serif; background-color: #f1f5f9; }
-  * { letter-spacing: normal !important; }
+  * { letter-spacing: normal !important; box-sizing: border-box; }
 </style>
 </head>
 <body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
@@ -24,7 +24,7 @@
     
     <!-- FORMAT SERTIFIKAT A4 LANDSCAPE -->
     <div class="bg-slate-300 p-4 rounded-2xl shadow-inner mb-6 overflow-x-auto max-w-full">
-      <div id="certificate" dir="rtl" class="bg-white rounded-lg text-slate-900 shadow-2xl relative overflow-hidden transition-all duration-300" style="width: 1122px; height: 793px; padding: 40px; box-sizing: border-box; background: #ffffff; border: 12px solid #047857;">
+      <div id="certificate" dir="rtl" class="bg-white rounded-lg text-slate-900 shadow-2xl relative overflow-hidden transition-all duration-300 flex flex-col justify-between" style="width: 1122px; height: 793px; padding: 45px 55px; background: #ffffff; border: 12px solid #047857;">
         
         <!-- WATERMARK LOGO DI BACKGROUND -->
         <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.03]">
@@ -41,78 +41,80 @@
         <!-- BORDER DEKORATIF DALAM -->
         <div class="absolute inset-3 border border-amber-500/50 pointer-events-none z-10"></div>
 
-        <!-- HEADER SERTIFIKAT -->
-        <div class="text-center mb-4 relative z-10 border-b border-emerald-800/30 pb-3">
-          <div class="flex justify-center mb-2">
-            <img id="logoImg" src="/logo.png" alt="Logo" class="h-20 object-contain" onerror="this.onerror=null; this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"/>
-            <div id="logoFallback" class="hidden w-16 h-16 bg-emerald-800 text-amber-300 font-bold rounded-full items-center justify-center text-xl shadow font-serif border-2 border-amber-400">
-              تعلّم
+        <div>
+          <!-- HEADER SERTIFIKAT -->
+          <div class="text-center mb-4 relative z-10 border-b border-emerald-800/30 pb-3">
+            <div class="flex justify-center mb-2">
+              <img id="logoImg" src="/logo.png" alt="Logo" class="h-20 object-contain" onerror="this.onerror=null; this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"/>
+              <div id="logoFallback" class="hidden w-16 h-16 bg-emerald-800 text-amber-300 font-bold rounded-full items-center justify-center text-xl shadow font-serif border-2 border-amber-400">
+                تعلّم
+              </div>
             </div>
+            <h1 class="text-2xl font-extrabold text-emerald-900 font-serif">TA'ALLUM ARABIC</h1>
+            <h2 class="text-xs font-bold text-emerald-800 font-sans mt-0.5" dir="ltr">TEST OF ARABIC AS A FOREIGN LANGUAGE (TOAFL)</h2>
           </div>
-          <h1 class="text-2xl font-extrabold text-emerald-900 font-serif">TA'ALLUM ARABIC</h1>
-          <h2 class="text-xs font-bold text-emerald-800 font-sans mt-0.5" dir="ltr">TEST OF ARABIC AS A FOREIGN LANGUAGE (TOAFL)</h2>
-        </div>
 
-        <!-- JUDUL SERTIFIKAT -->
-        <div class="text-center my-2 relative z-10">
-          <h1 class="text-4xl font-extrabold text-emerald-950 font-serif leading-none mb-1">شهادة كفاءة</h1>
-          <p class="text-base font-bold text-amber-700">في اللغة العربية لغير الناطقين بها</p>
-        </div>
+          <!-- JUDUL SERTIFIKAT -->
+          <div class="text-center my-3 relative z-10">
+            <h1 class="text-4xl font-extrabold text-emerald-950 font-serif leading-none mb-1">شهادة كفاءة</h1>
+            <p class="text-base font-bold text-amber-700">في اللغة العربية لغير الناطقين بها</p>
+          </div>
 
-        <!-- DATA PESERTA & NARASI PERMINTAAN -->
-        <div class="text-center my-3 px-6 relative z-10">
-          <p class="text-xs text-slate-500 font-serif mb-1">تشهد إدارة البرنامج بأن :</p>
-          <h2 id="dispName" class="text-3xl font-extrabold text-emerald-900 font-serif border-b-2 border-emerald-800/30 inline-block px-8 pb-1 mb-3">—</h2>
-          <p class="text-sm text-slate-700 leading-relaxed font-serif max-w-3xl mx-auto text-center">
-            قد أتم بنجاح اختبار كفاءة اللغة العربية <span dir="ltr" class="font-sans font-bold text-emerald-900">(TOAFL)</span> المعتمد عبر مركز <span class="font-bold text-emerald-900">Ta'allum Arabic</span> وفق معايير التقويم الأكاديمي المحددة، وحصل على الدرجات والتقدير المستحقين أداءه، وبناء عليه حررت له هذه الشهادة إثباتا لمستواه اللغوي.
-          </p>
-        </div>
+          <!-- DATA PESERTA & NARASI -->
+          <div class="text-center my-4 px-6 relative z-10">
+            <p class="text-xs text-slate-500 font-serif mb-1">تشهد إدارة البرنامج بأن :</p>
+            <h2 id="dispName" class="text-3xl font-extrabold text-emerald-900 font-serif border-b-2 border-emerald-800/30 inline-block px-8 pb-1 mb-3">—</h2>
+            <p class="text-sm text-slate-700 leading-relaxed font-serif max-w-3xl mx-auto text-center">
+              قد أتم بنجاح اختبار كفاءة اللغة العربية <span dir="ltr" class="font-sans font-bold text-emerald-900">(TOAFL)</span> المعتمد عبر مركز <span class="font-bold text-emerald-900">Ta'allum Arabic</span> وفق معايير التقويم الأكاديمي المحددة، وحصل على الدرجات والتقدير المستحقين أداءه، وبناء عليه حررت له هذه الشهادة إثباتا لمستواه اللغوي.
+            </p>
+          </div>
 
-        <!-- RINCIAN SKOR & QR CODE -->
-        <div class="flex justify-between items-center my-4 px-6 relative z-10 gap-6">
-          
-          <!-- TABEL SKOR -->
-          <div class="flex-1 bg-emerald-50/60 p-3.5 rounded-xl border border-emerald-200 text-right">
-            <div class="flex justify-between items-center border-b border-emerald-300 pb-1.5 mb-2">
-              <span class="text-xs font-bold text-slate-800">الدرجة الكلية :</span>
-              <span id="dispScore" class="text-2xl font-extrabold text-emerald-900 font-serif">(0)</span>
-            </div>
+          <!-- RINCIAN SKOR & QR CODE (KUNCI UKURAN PIKSEL PRESISI) -->
+          <div class="relative z-10 mt-6 px-4" style="display: flex; gap: 24px; align-items: stretch; justify-content: center;">
             
-            <div class="flex justify-between items-center mb-2 bg-emerald-100/60 p-1.5 rounded-lg border border-emerald-300">
-              <span class="text-slate-700 font-bold text-[11px]">التقدير والرمز :</span>
-              <div class="flex items-center gap-2">
-                <span id="dispPredikatText" class="text-emerald-900 font-bold text-xs font-serif">—</span>
-                <span id="dispPredikatSymbol" class="bg-emerald-800 text-amber-300 font-bold px-2 py-0.5 rounded text-xs">A</span>
+            <!-- TABEL SKOR (KOTAK KANAN) -->
+            <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200 text-right" style="width: 660px;">
+              <div class="flex justify-between items-center border-b border-emerald-300 pb-2 mb-2">
+                <span class="text-xs font-bold text-slate-800">الدرجة الكلية :</span>
+                <span id="dispScore" class="text-2xl font-extrabold text-emerald-900 font-serif">(0)</span>
+              </div>
+              
+              <div class="flex justify-between items-center mb-2.5 bg-emerald-100/70 p-1.5 rounded-lg border border-emerald-300">
+                <span class="text-slate-700 font-bold text-[11px]">التقدير والرمز :</span>
+                <div class="flex items-center gap-2">
+                  <span id="dispPredikatText" class="text-emerald-900 font-bold text-xs font-serif">—</span>
+                  <span id="dispPredikatSymbol" class="bg-emerald-800 text-amber-300 font-bold px-2 py-0.5 rounded text-xs">A</span>
+                </div>
+              </div>
+
+              <div class="space-y-1 text-xs text-slate-800">
+                <div class="flex justify-between items-center border-b border-slate-200/60 pb-1">
+                  <span>فهم المسموع <span class="text-slate-500 font-sans text-[10px]" dir="ltr">(Listening)</span> :</span>
+                  <b id="dispIs" class="font-serif text-sm text-emerald-900 font-bold">0</b>
+                </div>
+                <div class="flex justify-between items-center border-b border-slate-200/60 pb-1">
+                  <span>فهم التراكيب والتعبيرات <span class="text-slate-500 font-sans text-[10px]" dir="ltr">(Structure)</span> :</span>
+                  <b id="dispTa" class="font-serif text-sm text-emerald-900 font-bold">0</b>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>فهم المقروء <span class="text-slate-500 font-sans text-[10px]" dir="ltr">(Reading)</span> :</span>
+                  <b id="dispQi" class="font-serif text-sm text-emerald-900 font-bold">0</b>
+                </div>
               </div>
             </div>
 
-            <div class="space-y-1 text-xs text-slate-800">
-              <div class="flex justify-between items-center border-b border-slate-200/60 pb-1">
-                <span>فهم المسموع <span class="text-slate-500 font-sans text-[10px]" dir="ltr">(Listening)</span> :</span>
-                <b id="dispIs" class="font-serif text-sm text-emerald-900">0</b>
-              </div>
-              <div class="flex justify-between items-center border-b border-slate-200/60 pb-1">
-                <span>فهم التراكيب والتعبيرات <span class="text-slate-500 font-sans text-[10px]" dir="ltr">(Structure)</span> :</span>
-                <b id="dispTa" class="font-serif text-sm text-emerald-900">0</b>
-              </div>
-              <div class="flex justify-between items-center">
-                <span>فهم المقروء <span class="text-slate-500 font-sans text-[10px]" dir="ltr">(Reading)</span> :</span>
-                <b id="dispQi" class="font-serif text-sm text-emerald-900">0</b>
-              </div>
+            <!-- VERIFIKASI QR CODE (KOTAK KIRI) -->
+            <div class="flex flex-col items-center justify-center p-3 border border-slate-300 rounded-xl bg-white shadow-sm" style="width: 240px;">
+              <div id="certQr" class="bg-white p-1 border border-slate-200 rounded mb-2"></div>
+              <p class="text-[11px] font-bold text-emerald-900 font-sans text-center">رمز التحقق الرقمي</p>
+              <p class="text-[9px] text-slate-400 font-mono text-center" dir="ltr">Digital Verification QR</p>
             </div>
-          </div>
 
-          <!-- VERIFIKASI QR CODE -->
-          <div class="w-44 flex flex-col items-center justify-center p-3 border border-slate-200 rounded-xl bg-slate-50/80 shadow-sm">
-            <div id="certQr" class="bg-white p-1 border border-slate-300 rounded shadow-sm mb-1.5"></div>
-            <p class="text-[11px] font-bold text-emerald-900 font-sans text-center">رمز التحقق الرقمي</p>
-            <p class="text-[9px] text-slate-400 font-mono text-center" dir="ltr">Digital Verification QR</p>
           </div>
-
         </div>
 
         <!-- FOOTER -->
-        <div class="absolute bottom-5 left-10 right-10 flex justify-between items-end border-t border-slate-200 pt-2 z-10">
+        <div class="flex justify-between items-end border-t border-slate-200 pt-3 relative z-10 mt-4">
           <div class="text-right space-y-0.5 text-[11px] text-slate-600">
             <p>رقم الشهادة : <b id="dispId" class="font-mono text-emerald-900">TA-000000</b></p>
             <p>تاريخ الإصدار : <b id="dispDate">١٤ أغسطس ٢٠٢٦</b></p>
@@ -229,9 +231,16 @@ async function downloadPDF() {
   }
   await document.fonts.ready;
   const element = document.getElementById('certificate');
-  const canvas = await html2canvas(element, { scale: 2, useCORS: true });
-  const imgData = canvas.toDataURL('image/jpeg', 1.0);
   
+  // Memaksa html2canvas merender dengan lebar layar desktop 1122px
+  const canvas = await html2canvas(element, { 
+    scale: 2, 
+    useCORS: true,
+    windowWidth: 1122,
+    windowHeight: 793
+  });
+  
+  const imgData = canvas.toDataURL('image/jpeg', 1.0);
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
   pdf.addImage(imgData, 'JPEG', 0, 0, 297, 210);
