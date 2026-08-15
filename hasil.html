@@ -102,6 +102,9 @@
   const ta = params.get('ta') || '0';
   const qi = params.get('qi') || '0';
 
+  // Generate ID Sertifikat unik otomatis untuk tiap peserta (Contoh: TA-849201)
+  const certId = params.get('id') || ('TA-' + Math.floor(100000 + Math.random() * 900000));
+
   const pInfo = getPredikat(total);
 
   document.getElementById('totalScore').textContent = total;
@@ -111,10 +114,11 @@
   document.getElementById('outPredText').textContent = pInfo.text;
   document.getElementById('outPredSym').textContent = pInfo.symbol;
 
-  // PESAN OTOMATIS WHATSAPP
+  // PESAN OTOMATIS WHATSAPP (TERMASUK ID SERTIFIKAT UNIK)
   const waMessage = `Halo Admin, saya sudah selesai ujian TOAFL dan ingin menerbitkan sertifikat.
 
 Nama: ${name}
+ID Sertifikat: ${certId}
 الدرجة الكلية: ${total}
 - فهم المسموع: ${is}
 - فهم التراكيب: ${ta}
