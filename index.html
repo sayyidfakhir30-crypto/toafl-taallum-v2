@@ -118,7 +118,23 @@ function computeScore() {
 
 function selectOpt(id, oi) {
   answers[id] = oi;
-  render(false);
+  
+  // Update UI secara langsung tanpa memuat ulang DOM audio
+  const qBox = document.getElementById(`q-box-${id}`);
+  if (qBox) {
+    const btns = qBox.querySelectorAll('.opt-btn');
+    btns.forEach((btn, idx) => {
+      if (idx === oi) {
+        btn.classList.add('selected');
+      } else {
+        btn.classList.remove('selected');
+      }
+    });
+  }
+
+  // Sembunyikan pesan peringatan jika peserta sudah memilih jawaban
+  const warnBox = document.getElementById('warn-box');
+  if (warnBox) warnBox.classList.add('hidden');
 }
 
 function prevStep() {
@@ -129,6 +145,18 @@ function prevStep() {
 }
 
 function nextStep() {
+  const currentStep = STEPS[stepIndex];
+  const unanswered = currentStep.questions.some(q => answers[q.id] === undefined);
+
+  if (unanswered) {
+    const warnBox = document.getElementById('warn-box');
+    if (warnBox) {
+      warnBox.classList.remove('hidden');
+      warnBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return;
+  }
+
   if (stepIndex < STEPS.length - 1) {
     stepIndex++;
     render(true);
@@ -161,7 +189,7 @@ function render(shouldScroll = true) {
       </div>
 
       <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 mb-6">
-        <h3 class="text-xl font-bold text-emerald-900 mb-2">تعليمات واشتراطات الاختبار</h3>
+        <h3 class="text-xl font-bold text-emerald-900 mb-2">تعليمات وااشتراطات الاختبار</h3>
         <ul class="text-sm text-slate-600 leading-relaxed space-y-2 mb-4 list-disc list-inside">
           <li>يتكون الاختبار من ٣ أجزاء: فهم المسموع (٣٠ سؤالاً)، فهم التراكيب (٢٠ سؤالاً)، وفهم المقروء (٥٠ سؤالاً).</li>
           <li>يمكنك الاطلاع على النتيجة فور الانتهاء من جميع الأسئلة مجانًا.</li>
@@ -171,8 +199,9 @@ function render(shouldScroll = true) {
           <b>Catatan:</b> Sertifikat ini diterbitkan secara independen oleh <b>Ta'allum Arabic</b> sebagai bukti kualifikasi kemampuan bahasa Arab dan berkas pendukung.
         </div>
 
-        <label class="block text-xs font-bold text-slate-600 uppercase mb-2">اسم المشارك (كما سيظهر في الشهادة)</label>
-        <input type="text" id="nameInput" class="w-full p-3.5 border border-slate-200 rounded-xl mb-4 focus:outline-none focus:border-emerald-600 bg-slate-50 text-base" placeholder="أدخل اسمك الكامل هنا..." value="${participantName}">
+        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">اسم المشارك (كما سيظهر في الشهادة)</label>
+        <p class="text-xs text-amber-700 font-bold mb-2">تنبيه: يُرجى كتابة الاسم باللغة العربية حصراً</p>
+        <input type="text" id="nameInput" class="w-full p-3.5 border border-slate-200 rounded-xl mb-4 focus:outline-none focus:border-emerald-600 bg-slate-50 text-base" placeholder="أدخل اسمك الكامل باللغة العربية..." value="${participantName}">
         <button id="startBtn" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-4 rounded-xl shadow-md transition">ابدأ الاختبار الآن</button>
       </div>
     `;
@@ -180,7 +209,7 @@ function render(shouldScroll = true) {
     setTimeout(() => {
       document.getElementById('startBtn').onclick = () => {
         const val = document.getElementById('nameInput').value.trim();
-        if(!val) return alert('الرجاء كتابة الاسم للبدء');
+        if(!val) return alert('الرجاء كتابة الاسم باللغة العربية للبدء');
         participantName = val;
         stepIndex = 0;
         answers = {};
@@ -227,6 +256,10 @@ function render(shouldScroll = true) {
       <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 mb-6">
         <h3 class="text-lg font-bold text-emerald-900 mb-4">${step.title}</h3>
         ${qHtml}
+      </div>
+
+      <div id="warn-box" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl mb-4 text-center font-bold text-sm">
+        ⚠️ يُرجى الإجابة عن جميع الأسئلة في هذه الخطوة قبل الانتقال!
       </div>
 
       <div class="flex gap-3">
