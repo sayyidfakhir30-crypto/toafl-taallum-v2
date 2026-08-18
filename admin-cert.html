@@ -22,10 +22,15 @@
     margin: 0;
   }
 
+  .page-break { 
+    page-break-before: always; 
+    break-before: page;
+  }
+
   @media print {
     html, body {
       width: 297mm !important;
-      height: 210mm !important;
+      height: auto !important;
       margin: 0 !important;
       padding: 0 !important;
       background: #ffffff !important;
@@ -41,18 +46,20 @@
       background: transparent !important;
       border: none !important;
       width: 297mm !important;
-      height: 210mm !important;
+      display: block !important;
     }
-    #certificate {
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
+    #certificate, #certificate-p2 {
+      position: relative !important;
       width: 297mm !important;
       height: 210mm !important;
       border: 14px solid #047857 !important;
       box-shadow: none !important;
       margin: 0 !important;
       border-radius: 0 !important;
+    }
+    #certificate {
+      page-break-after: always !important;
+      break-after: page !important;
     }
   }
 </style>
@@ -94,13 +101,15 @@
       </div>
       
       <button onclick="downloadPDF()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded mt-4 shadow">
-        Cetak & Simpan PDF (A4 Lanskap)
+        Cetak & Simpan PDF (2 Halaman A4 Lanskap)
       </button>
     </div>
   </div>
 
   <!-- PRATINJAU TEMPLATE SERTIFIKAT -->
-  <div class="w-full lg:w-2/3 overflow-auto border p-4 bg-slate-300 rounded-xl flex justify-center cert-outer-wrapper">
+  <div class="w-full lg:w-2/3 overflow-auto border p-4 bg-slate-300 rounded-xl flex flex-col items-center gap-6 cert-outer-wrapper">
+    
+    <!-- HALAMAN 1: SERTIFIKAT UTAMA -->
     <div id="certificate" dir="rtl" class="bg-white text-slate-900 relative overflow-hidden flex flex-col justify-between cert-arabic shadow-xl" style="width: 1122px; height: 793px; padding: 25px 45px 25px 45px; border: 14px solid #047857; min-width: 1122px;">
       
       <!-- WATERMARK LOGO -->
@@ -192,6 +201,94 @@
 
       </div>
     </div>
+
+    <!-- HALAMAN 2: STANDAR PENILAIAN -->
+    <div id="certificate-p2" dir="rtl" class="bg-white text-slate-900 relative overflow-hidden flex flex-col justify-between cert-arabic shadow-xl page-break" style="width: 1122px; height: 793px; padding: 35px 45px 35px 45px; border: 14px solid #047857; min-width: 1122px;">
+      
+      <!-- WATERMARK LOGO -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.03]">
+        <img src="logo.png" alt="Watermark" class="w-[480px] h-[480px] object-contain" onerror="this.style.display='none';"/>
+      </div>
+
+      <!-- GARIS EMAS BORDER INNER -->
+      <div class="absolute inset-3 border border-amber-500/50 pointer-events-none z-10"></div>
+
+      <div class="relative z-10 flex flex-col justify-between h-full">
+        
+        <!-- HEADER ATAS -->
+        <div class="text-center mb-2 border-b-2 border-emerald-800/30 pb-3">
+          <img src="logo.png" alt="Logo Ta'allum" class="w-16 h-16 object-contain mx-auto mb-1" onerror="this.style.display='none';" />
+          <h1 class="text-2xl font-extrabold text-emerald-900 cert-latin leading-tight tracking-wide">TA'ALLUM ARABIC</h1>
+          <h2 class="text-xs font-bold text-emerald-800 cert-latin mt-0.5 tracking-wider" dir="ltr">TEST OF ARABIC AS A FOREIGN LANGUAGE (TOAFL)</h2>
+        </div>
+
+        <!-- JUDUL PAGE 2 -->
+        <div class="text-center my-4">
+          <h3 class="text-3xl font-extrabold text-emerald-950 mb-1 cert-arabic">سلم درجات اختبارات اللغة العربية لغير الناطقين بها</h3>
+          <p class="text-xs font-bold text-amber-700 cert-latin tracking-wider uppercase" dir="ltr">TOAFL Score Scale & Proficiency Level Standards</p>
+        </div>
+
+        <!-- TABEL STANDAR PENILAIAN -->
+        <div class="my-auto px-12">
+          <table class="w-full max-w-2xl mx-auto border-collapse border-2 border-emerald-800 text-center font-sans shadow-sm">
+            <thead>
+              <tr class="bg-emerald-800 text-amber-300 text-base font-bold">
+                <th class="border border-emerald-700 p-3 cert-arabic w-1/3">الرموز <span class="text-xs font-normal cert-latin block" dir="ltr">(Symbol)</span></th>
+                <th class="border border-emerald-700 p-3 cert-arabic w-1/3">التقديرات <span class="text-xs font-normal cert-latin block" dir="ltr">(Evaluation)</span></th>
+                <th class="border border-emerald-700 p-3 cert-arabic w-1/3">توزيع الدرجات <span class="text-xs font-normal cert-latin block" dir="ltr">(Score Range)</span></th>
+              </tr>
+            </thead>
+            <tbody class="text-slate-800 text-sm font-bold bg-white">
+              <tr class="border-b border-slate-200">
+                <td class="border border-slate-300 p-2.5 text-emerald-900 cert-latin text-base">D</td>
+                <td class="border border-slate-300 p-2.5 cert-arabic">ضعيف جداً</td>
+                <td class="border border-slate-300 p-2.5 cert-latin" dir="ltr">210 - 300</td>
+              </tr>
+              <tr class="border-b border-slate-200">
+                <td class="border border-slate-300 p-2.5 text-emerald-900 cert-latin text-base">C</td>
+                <td class="border border-slate-300 p-2.5 cert-arabic">ضعيف</td>
+                <td class="border border-slate-300 p-2.5 cert-latin" dir="ltr">301 - 400</td>
+              </tr>
+              <tr class="border-b border-slate-200">
+                <td class="border border-slate-300 p-2.5 text-emerald-900 cert-latin text-base">B-</td>
+                <td class="border border-slate-300 p-2.5 cert-arabic">مقبول</td>
+                <td class="border border-slate-300 p-2.5 cert-latin" dir="ltr">401 - 450</td>
+              </tr>
+              <tr class="border-b border-slate-200">
+                <td class="border border-slate-300 p-2.5 text-emerald-900 cert-latin text-base">B</td>
+                <td class="border border-slate-300 p-2.5 cert-arabic">جيد</td>
+                <td class="border border-slate-300 p-2.5 cert-latin" dir="ltr">451 - 500</td>
+              </tr>
+              <tr class="border-b border-slate-200">
+                <td class="border border-slate-300 p-2.5 text-emerald-900 cert-latin text-base">B+</td>
+                <td class="border border-slate-300 p-2.5 cert-arabic">جيد جداً</td>
+                <td class="border border-slate-300 p-2.5 cert-latin" dir="ltr">501 - 600</td>
+              </tr>
+              <tr>
+                <td class="border border-slate-300 p-2.5 text-emerald-900 cert-latin text-base">A</td>
+                <td class="border border-slate-300 p-2.5 cert-arabic">ممتاز</td>
+                <td class="border border-slate-300 p-2.5 cert-latin" dir="ltr">601 - 680</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- FOOTER PAGE 2 -->
+        <div class="flex justify-between items-end border-t-2 border-slate-200 pt-2 px-2 mt-auto">
+          <div class="text-right space-y-0.5 text-xs text-slate-700 cert-arabic">
+            <p>مركز Ta'allum Arabic لتعليم وااختبارات اللغة العربية</p>
+          </div>
+
+          <div class="text-center space-y-0.5">
+            <p class="text-xs text-slate-500 uppercase font-bold cert-arabic">اعتماد الشهادة</p>
+            <p class="text-xs font-bold text-emerald-900 cert-arabic">إدارة برنامج Ta'allum Arabic</p>
+            <p class="text-[8px] text-slate-400 cert-latin" dir="ltr">Certified Digital Assessment System</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
 </div>
